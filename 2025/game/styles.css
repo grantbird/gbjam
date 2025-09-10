@@ -1,0 +1,22 @@
+body {
+    background-color: #a1a5c3;
+}
+#canvasContainer {
+    margin: 3%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+#controlContainer {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 3%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#stepsInput {
+    width: 3%;
+}
