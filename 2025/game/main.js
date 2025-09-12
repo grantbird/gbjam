@@ -33,9 +33,6 @@ const canvasCtx = canvas.getContext("2d");
 canvasCtx.canvas.width = SCREEN_WIDTH * PIXEL_SIZE
 canvasCtx.canvas.height = SCREEN_HEIGHT * PIXEL_SIZE
 
-var currPalette = {1: "#7D4F50", 2:"#CC8B86", 3:"#D1BE9C", 4:"#F9EAE1"};
-var currScreen = Array.from(Array(SCREEN_HEIGHT), _ => Array(SCREEN_WIDTH).fill(1));
-
 const crowWalk_R_0_bmp = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 1, 0, 0, 0], [0, 1, 1, 0, 0, 0, 1, 2, 2, 2, 2, 3, 3, 1, 0, 0], [0, 1, 1, 0, 0, 1, 2, 2, 2, 4, 2, 3, 3, 3, 1, 0], [0, 1, 1, 1, 1, 2, 2, 1, 3, 2, 2, 3, 3, 3, 3, 1], [0, 1, 2, 1, 2, 2, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1], [0, 1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 0, 0, 0, 0], [0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0], [0, 0, 1, 1, 1, 2, 2, 2, 1, 1, 2, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]];
 const crowWalk_R_1_bmp = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 1, 0, 0, 0], [0, 1, 1, 0, 0, 0, 1, 2, 2, 2, 2, 3, 3, 1, 0, 0], [0, 1, 1, 0, 0, 1, 2, 2, 2, 4, 2, 3, 3, 3, 1, 0], [0, 1, 1, 1, 1, 2, 2, 1, 3, 2, 2, 3, 3, 3, 3, 1], [0, 1, 2, 1, 2, 2, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1], [0, 1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 0, 0, 0, 0], [0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0], [0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0]];
 const crowWalk_R_2_bmp = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 1, 0, 0, 0], [0, 1, 1, 0, 0, 0, 1, 2, 2, 2, 2, 3, 3, 1, 0, 0], [0, 1, 1, 0, 0, 1, 2, 2, 2, 4, 2, 3, 3, 3, 1, 0], [0, 1, 1, 1, 1, 2, 2, 1, 3, 2, 2, 3, 3, 3, 3, 1], [0, 1, 2, 1, 2, 2, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1], [0, 1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 0, 0, 0, 0], [0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0], [0, 0, 1, 1, 1, 2, 1, 1, 2, 2, 2, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0]];
@@ -381,7 +378,7 @@ class GraphicsHandler {
         for (let i = 0; i < text.length; i++) {
             let letterIndex = LETTERS.indexOf(text[i].toLowerCase());
             let letterMap = font_bmp.slice(letterIndex * LETTER_SIZE, (letterIndex + 1) * LETTER_SIZE);
-            drawBitmap(letterMap, x + LETTER_SIZE * i, y);
+            this.drawBitmap(letterMap, x + LETTER_SIZE * i, y);
         }
     }
 
@@ -398,8 +395,6 @@ class GraphicsHandler {
     }
 }
 
-var inputHandler = new InputHandler(canvas);
-
 const muteButton = document.getElementById("muteButton");
 var AudioContext = window.AudioContext || window.webkitAudioContext || false;
 if (AudioContext) {
@@ -408,6 +403,10 @@ if (AudioContext) {
 } else {
     alert("Your browser doesn't seem to support the Web Audio API. To hear this game's sound, upgrade your browser to the most recent version or download Chrome or Firefox.");
 }
+
+var inputHandler = new InputHandler(canvas);
+
+var graphicsHandler = new GraphicsHandler();
 
 const test_song = {
     tempo:90,
@@ -629,62 +628,6 @@ muteButton.addEventListener("click", (e) => {
     }
 });
 
-function drawPixel(color, x, y) {
-    currScreen[y][x] = color;
-}
-
-function fillScreen(color) {
-    for (let i = 0; i < currScreen.length; i++) {
-        for (let j = 0; j < currScreen[i].length; j++) {
-            currScreen[i][j] = color;
-        }
-    }
-}
-
-function fillRect(color, x, y, w, h) {
-    for (let i = y; i < h; i++) {
-        for (let j = x; j < w; j++) {
-            currScreen[i][j] = color;
-        }
-    } 
-}
-
-function drawBitmap(map, x, y) {
-    for (let i = 0; i < map.length; i++) {
-        for (let j = 0; j < map[i].length; j++) {
-            if (y + i < currScreen.length && x + j < currScreen[i].length) {
-                if (map[i][j] > 0) {
-                    currScreen[y + i][x + j] = map[i][j];
-                }
-            }
-        }
-    }
-}
-
-function drawText(text, x, y) {
-    for (let i = 0; i < text.length; i++) {
-        letterIndex = LETTERS.indexOf(text[i].toLowerCase());
-        letterMap = font_bmp.slice(letterIndex * LETTER_SIZE, (letterIndex + 1) * LETTER_SIZE);
-        drawBitmap(letterMap, x + LETTER_SIZE * i, y);
-    }
-}
-
-function draw() {
-    canvasCtx.fillStyle = currPalette[1];
-    canvasCtx.fillRect(0, 0, SCREEN_WIDTH * PIXEL_SIZE, SCREEN_HEIGHT * PIXEL_SIZE);
-
-    myWorld.update();
-    myPlayer.update();
-
-    for (let i = 0; i < SCREEN_HEIGHT; i++) {
-        for (let j = 0; j < SCREEN_WIDTH; j++) {
-            canvasCtx.fillStyle = currPalette[currScreen[i][j]];
-            canvasCtx.fillRect(j * PIXEL_SIZE, i * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
-        }
-    }
-    requestAnimationFrame(draw);
-}
-
 function getUnvisited(visited, i, j) {
     let result = [];
     let cardinals = [[-1, 0], [1, 0], [0, -1], [0, 1]];
@@ -747,7 +690,7 @@ class World {
     }
 
     update() {
-        fillScreen(this.getCurrRoom().bgColor);
+        graphicsHandler.fillScreen(this.getCurrRoom().bgColor);
         if (this.titleOpen && (inputHandler.keyPressed.start || inputHandler.keyPressed.select)) {
             this.titleOpen = false;
             this.displayTextBox("-sniff sniff-       I wonder what's in  that hut...");
@@ -755,17 +698,17 @@ class World {
         for (let i = 0; i < SCREEN_HEIGHT / TILE_SIZE; i++) {
             for (let j = 0; j < SCREEN_WIDTH / TILE_SIZE; j++) {
                 let currTile = this.getCurrRoom().tiles[i][j];
-                drawBitmap(currTile.img, j * TILE_SIZE, i * TILE_SIZE);
+                graphicsHandler.drawBitmap(currTile.img, j * TILE_SIZE, i * TILE_SIZE);
             }
         }
         for (let i = 0; i < this.getCurrRoom().characters.length; i++) {
             this.getCurrRoom().characters[i].update();
         }
         if (this.textOpen) {
-            fillRect(4, 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+            graphicsHandler.fillRect(4, 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
             let currText = this.text.substring(0, this.textChars);
             for (let i = 0; i < TEXT_LINES; i++) {
-                drawText(currText.slice(i * TEXT_LINE_LENGTH, (i + 1) * TEXT_LINE_LENGTH), 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT + i * 8);
+                graphicsHandler.drawText(currText.slice(i * TEXT_LINE_LENGTH, (i + 1) * TEXT_LINE_LENGTH), 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT + i * 8);
             }
             if (inputHandler.keyPressed.a || inputHandler.keyPressed.b) {
                 this.textOpen = false;
@@ -773,10 +716,10 @@ class World {
             }
         }
         if (this.titleOpen) {
-            drawBitmap(title_bmp, 0, 0);
+            graphicsHandler.drawBitmap(title_bmp, 0, 0);
         }
         if (this.endOpen) {
-            drawBitmap(end_bmp, 0, 0);
+            graphicsHandler.drawBitmap(end_bmp, 0, 0);
         }
     }
 }
@@ -795,7 +738,7 @@ class Character {
         audioHandler.playGliss(1000, 2000, 100, 3);
     }
     update() {
-        drawBitmap(this.frames[this.animType + this.currFrame], Math.round(this.loc.x), Math.round(this.loc.y));
+        graphicsHandler.drawBitmap(this.frames[this.animType + this.currFrame], Math.round(this.loc.x), Math.round(this.loc.y));
     }
 }
 
@@ -903,10 +846,10 @@ class Player {
             this.loc.y += this.velocity.y;
         }
         if (this.animType == "idle") {
-            drawBitmap(this.frames[this.animType + this.animDir], Math.round(this.loc.x), Math.round(this.loc.y));
+            graphicsHandler.drawBitmap(this.frames[this.animType + this.animDir], Math.round(this.loc.x), Math.round(this.loc.y));
         }
         else {
-            drawBitmap(this.frames[this.animType + this.currFrame + this.animDir], Math.round(this.loc.x), Math.round(this.loc.y));
+            graphicsHandler.drawBitmap(this.frames[this.animType + this.currFrame + this.animDir], Math.round(this.loc.x), Math.round(this.loc.y));
         }
     }
 }
@@ -1325,4 +1268,13 @@ hat.world = myWorld;
 
 audioHandler.playSong(song1, loop=true);
 
-requestAnimationFrame(draw);
+function update() {
+    myWorld.update();
+    myPlayer.update();
+
+    graphicsHandler.draw();
+
+    requestAnimationFrame(update);
+}
+
+requestAnimationFrame(update);
