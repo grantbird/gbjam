@@ -243,6 +243,65 @@ class InputHandler {
     }
 }
 
+class GraphicsHandler {
+    constructor() {
+        this.currPalette = {1: "#7D4F50", 2:"#CC8B86", 3:"#D1BE9C", 4:"#F9EAE1"};
+        this.currScreen = Array.from(Array(SCREEN_HEIGHT), _ => Array(SCREEN_WIDTH).fill(1));
+    }
+
+    drawPixel(color, x, y) {
+        this.currScreen[y][x] = color;
+    }
+
+    fillScreen(color) {
+        for (let i = 0; i < this.currScreen.length; i++) {
+            for (let j = 0; j < this.currScreen[i].length; j++) {
+                this.currScreen[i][j] = color;
+            }
+        }
+    }
+
+    fillRect(color, x, y, w, h) {
+        for (let i = y; i < h; i++) {
+            for (let j = x; j < w; j++) {
+                this.currScreen[i][j] = color;
+            }
+        } 
+    }
+
+    drawBitmap(map, x, y) {
+        for (let i = 0; i < map.length; i++) {
+            for (let j = 0; j < map[i].length; j++) {
+                if (y + i < this.currScreen.length && x + j < this.currScreen[i].length) {
+                    if (map[i][j] > 0) {
+                        this.currScreen[y + i][x + j] = map[i][j];
+                    }
+                }
+            }
+        }
+    }
+
+    drawText(text, x, y) {
+        for (let i = 0; i < text.length; i++) {
+            let letterIndex = letters.indexOf(text[i].toLowerCase());
+            let letterMap = font_bmp.slice(letterIndex * LETTER_SIZE, (letterIndex + 1) * LETTER_SIZE);
+            drawBitmap(letterMap, x + LETTER_SIZE * i, y);
+        }
+    }
+
+    draw() {
+        canvasCtx.fillStyle = this.currPalette[1];
+        canvasCtx.fillRect(0, 0, SCREEN_WIDTH * PIXEL_SIZE, SCREEN_HEIGHT * PIXEL_SIZE);
+
+        for (let i = 0; i < SCREEN_HEIGHT; i++) {
+            for (let j = 0; j < SCREEN_WIDTH; j++) {
+                canvasCtx.fillStyle = this.currPalette[this.currScreen[i][j]];
+                canvasCtx.fillRect(j * PIXEL_SIZE, i * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+            }
+        }
+    }
+}
+
 const SCREEN_WIDTH = 160
 const SCREEN_HEIGHT = 144
 const PIXEL_SIZE = 3
