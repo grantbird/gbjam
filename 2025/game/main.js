@@ -16,6 +16,11 @@ const NOTE_NAMES = {
     "B":11,
 }
 
+/* INPUT CONSTANTS */
+
+const KEYS = ["up", "down", "left", "right", "a", "b", "start", "select"];
+const DEFAULT_KEYS = ["w", "s", "a", "d", "x", "z", "Enter", "Shift"];
+
 class AudioHandler {
     constructor(ctx) {
         this.ctx = ctx;
@@ -125,6 +130,116 @@ class AudioHandler {
             }
         }, 
         stepDur);
+    }
+}
+
+class InputHandler {
+    constructor(canvas) {
+        this.keyPressed = {};
+        this.keySelectButtons = {};
+        this.keyMap = {};
+        this.currSelecting = "";
+
+        this.initializeButtons();
+        this.initializeMap();
+        this.initializePressed();
+        this.initializeListeners(canvas);
+    }
+
+    initializeButtons() {
+        for (let i = 0; i < KEYS.length; i++) {
+            this.keySelectButtons[KEYS[i]] = document.getElementById(KEYS[i] + "Button");
+            this.keySelectButtons[KEYS[i]].innerHTML = DEFAULT_KEYS[i];
+            this.keySelectButtons[KEYS[i]].addEventListener("click", (e) => {
+                this.currSelecting = KEYS[i];
+            });
+        }
+    }
+
+    initializeMap() {
+        for (let i = 0; i < KEYS.length; i++) {
+            this.keyMap[KEYS[i]] = DEFAULT_KEYS[i];
+        }
+    }
+
+    initializePressed() {
+        for (let i = 0; i < KEYS.length; i++) {
+            this.keyPressed[KEYS[i]] = false;
+        }
+    }
+
+    initializeListeners(canvas) {
+        window.addEventListener("keydown", (event) => {
+            if (KEYS.includes(this.currSelecting)) {
+                this.keyMap[this.currSelecting] = event.key;
+                this.keySelectButtons[this.currSelecting].innerHTML = event.key;
+            }
+            else {
+                switch (event.key) {
+                    case this.keyMap["up"]:
+                        this.keyPressed["up"] = true;
+                        break;
+                    case this.keyMap["down"]:
+                        this.keyPressed["down"] = true;
+                        break;
+                    case this.keyMap["left"]:
+                        this.keyPressed["left"] = true;
+                        break;
+                    case this.keyMap["right"]:
+                        this.keyPressed["right"] = true;
+                        break;
+                    case this.keyMap["a"]:
+                        this.keyPressed["a"] = true;
+                        break;
+                    case this.keyMap["b"]:
+                        this.keyPressed["b"] = true;
+                        break;
+                    case this.keyMap["start"]:
+                        this.keyPressed["start"] = true;
+                        break;
+                    case this.keyMap["select"]:
+                        this.keyPressed["select"] = true;
+                        break;
+                    default:
+                        return;
+                }
+            }
+        });
+
+        window.addEventListener("keyup", (event) => {
+            switch (event.key) {
+                case this.keyMap["up"]:
+                    this.keyPressed["up"] = false;
+                    break;
+                case this.keyMap["down"]:
+                    this.keyPressed["down"] = false;
+                    break;
+                case this.keyMap["left"]:
+                    this.keyPressed["left"] = false;
+                    break;
+                case this.keyMap["right"]:
+                    this.keyPressed["right"] = false;
+                    break;
+                case this.keyMap["a"]:
+                    this.keyPressed["a"] = false;
+                    break;
+                case this.keyMap["b"]:
+                    this.keyPressed["b"] = false;
+                    break;
+                case this.keyMap["start"]:
+                    this.keyPressed["start"] = false;
+                    break;
+                case this.keyMap["select"]:
+                    this.keyPressed["select"] = false;
+                    break;
+                default:
+                    return;  
+            }
+        });
+
+        canvas.addEventListener("click", (e) => {
+            this.currSelecting = "";
+        });
     }
 }
 
