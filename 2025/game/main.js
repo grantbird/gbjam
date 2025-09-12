@@ -335,12 +335,7 @@ const font_bmp = [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 1, 1, 1, 0, 0], [0, 1, 1, 
 const letters = "abcdefghijklmnopqrstuvwxyz.,!?'-";
 const LETTER_SIZE = 8;
 
-const keys = ["up", "down", "left", "right", "a", "b", "start", "select"];
-const defaultKeys = ["w", "s", "a", "d", "x", "z", "Enter", "Shift"];
-var keySelectButtons = {};
-var keyMap = {};
-var keyPressed = {};
-var currSelecting = "";
+var inputHandler = new InputHandler(canvas);
 
 const muteButton = document.getElementById("muteButton");
 var AudioContext = window.AudioContext || window.webkitAudioContext || false;
@@ -559,89 +554,6 @@ const grave_song = {
     },
 };
 
-for (let i = 0; i < keys.length; i++) {
-    keySelectButtons[keys[i]] = document.getElementById(keys[i] + "Button");
-    keyMap[keys[i]] = defaultKeys[i];
-    keySelectButtons[keys[i]].innerHTML = defaultKeys[i];
-    keyPressed[keys[i]] = false;
-
-    keySelectButtons[keys[i]].addEventListener("click", (e) => {
-        currSelecting = keys[i];
-    });
-}
-
-window.addEventListener("keydown", (event) => {
-    if (keys.includes(currSelecting)) {
-        keyMap[currSelecting] = event.key;
-        keySelectButtons[currSelecting].innerHTML = event.key;
-    }
-    else {
-        switch (event.key) {
-            case keyMap["up"]:
-                keyPressed["up"] = true;
-                break;
-            case keyMap["down"]:
-                keyPressed["down"] = true;
-                break;
-            case keyMap["left"]:
-                keyPressed["left"] = true;
-                break;
-            case keyMap["right"]:
-                keyPressed["right"] = true;
-                break;
-            case keyMap["a"]:
-                keyPressed["a"] = true;
-                break;
-            case keyMap["b"]:
-                keyPressed["b"] = true;
-                break;
-            case keyMap["start"]:
-                keyPressed["start"] = true;
-                break;
-            case keyMap["select"]:
-                keyPressed["select"] = true;
-                break;
-            default:
-                return;
-        }
-    }
-});
-
-window.addEventListener("keyup", (event) => {
-    switch (event.key) {
-        case keyMap["up"]:
-            keyPressed["up"] = false;
-            break;
-        case keyMap["down"]:
-            keyPressed["down"] = false;
-            break;
-        case keyMap["left"]:
-            keyPressed["left"] = false;
-            break;
-        case keyMap["right"]:
-            keyPressed["right"] = false;
-            break;
-        case keyMap["a"]:
-            keyPressed["a"] = false;
-            break;
-        case keyMap["b"]:
-            keyPressed["b"] = false;
-            break;
-        case keyMap["start"]:
-            keyPressed["start"] = false;
-            break;
-        case keyMap["select"]:
-            keyPressed["select"] = false;
-            break;
-        default:
-            return;  
-    }
-});
-
-canvas.addEventListener("click", (e) => {
-    currSelecting = "";
-});
-
 muteButton.addEventListener("click", (e) => {
     if (audioHandler.ctx.state === 'running') {
         audioHandler.ctx.suspend().then(() => {
@@ -773,7 +685,7 @@ class World {
 
     update() {
         fillScreen(this.getCurrRoom().bgColor);
-        if (this.titleOpen && (keyPressed.start || keyPressed.select)) {
+        if (this.titleOpen && (inputHandler.keyPressed.start || inputHandler.keyPressed.select)) {
             this.titleOpen = false;
             this.displayTextBox("-sniff sniff-       I wonder what's in  that hut...");
         }
@@ -792,7 +704,7 @@ class World {
             for (let i = 0; i < TEXT_LINES; i++) {
                 drawText(currText.slice(i * TEXT_LINE_LENGTH, (i + 1) * TEXT_LINE_LENGTH), 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT + i * 8);
             }
-            if (keyPressed.a || keyPressed.b) {
+            if (inputHandler.keyPressed.a || inputHandler.keyPressed.b) {
                 this.textOpen = false;
                 clearInterval(this.intervalCode);
             }
@@ -845,23 +757,23 @@ class Player {
     }
     update() {
         if (!this.world.textOpen && !this.world.titleOpen && !this.world.endOpen) {
-            if (keyPressed.up && !keyPressed.down) {
+            if (inputHandler.keyPressed.up && !inputHandler.keyPressed.down) {
                 this.force.y = -PLAYER_BASE_FORCE;
                 this.animType = "f";
             }
-            else if (keyPressed.down && !keyPressed.up) {
+            else if (inputHandler.keyPressed.down && !inputHandler.keyPressed.up) {
                 this.force.y = PLAYER_BASE_FORCE;
                 this.animType = "f";
             }
             else {
                 this.force.y = 0;
             }
-            if (keyPressed.left && !keyPressed.right) {
+            if (inputHandler.keyPressed.left && !inputHandler.keyPressed.right) {
                 this.force.x = -PLAYER_BASE_FORCE;
                 this.animType = "f";
                 this.animDir = "L";
             }
-            else if (keyPressed.right && !keyPressed.left) {
+            else if (inputHandler.keyPressed.right && !inputHandler.keyPressed.left) {
                 this.force.x = PLAYER_BASE_FORCE;
                 this.animType = "f";
                 this.animDir = "R";
@@ -869,7 +781,7 @@ class Player {
             else {
                 this.force.x = 0;
             }
-            if (keyPressed.a) {
+            if (inputHandler.keyPressed.a) {
                 for (let i = 0; i < this.world.getCurrRoom().characters.length; i++) {
                     if (this.isTouching(this.world.getCurrRoom().characters[i].loc, TILE_SIZE, TILE_SIZE)) {
                         this.world.getCurrRoom().characters[i].onInteract();
