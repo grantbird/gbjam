@@ -92,7 +92,7 @@ const LETTER_SIZE = 8;
 
 /* GAME CONSTANTS */
 
-const PLAYER_BASE_FORCE = 3; //2
+const PLAYER_BASE_FORCE = 3;
 const PLAYER_DRAG = 1;
 const ANIM_DELAY = 167;
 const ROOM_CHANGE_DIST = 1;
@@ -107,6 +107,7 @@ class AudioHandler {
         this.channels = {};
         this.gains = {};
         this.songIntervalID;
+        this.volume = 0.1;
 
         this.setupOscillatorChannels();
         this.setupNoiseChannel();
@@ -150,13 +151,13 @@ class AudioHandler {
         return C0_FREQ * Math.pow(2, (octave * 12 + noteName) / 12);
     }
 
-    playNote(freq, duration, channel, envelope=SQUARE_ENV) {
+    playNote(freq, duration, channel, envelope=SQUARE_ENV, volume=1) {
         this.gains[channel].gain.cancelScheduledValues(this.ctx.currentTime);
         this.gains[channel].gain.value = 0;
-        this.gains[channel].gain.linearRampToValueAtTime(1, this.ctx.currentTime + envelope.attack/1000);
+        this.gains[channel].gain.linearRampToValueAtTime(volume, this.ctx.currentTime + envelope.attack/1000);
         this.channels[channel].frequency.value = freq;
         setTimeout(() => {
-            this.gains[channel].gain.linearRampToValueAtTime(envelope.sustain, this.ctx.currentTime + envelope.decay/1000);
+            this.gains[channel].gain.linearRampToValueAtTime(envelope.sustain * volume, this.ctx.currentTime + envelope.decay/1000);
         }, envelope.attack)
         setTimeout(() => {
             this.gains[channel].gain.linearRampToValueAtTime(0, this.ctx.currentTime + envelope.release/1000);
@@ -166,8 +167,8 @@ class AudioHandler {
         }, duration)
     }
 
-    playGliss(startF, endF, duration, channel) {
-        this.gains[channel].gain.value = 1;
+    playGliss(startF, endF, duration, channel, volume=1) {
+        this.gains[channel].gain.value = volume;
         this.channels[channel].frequency.value = startF;
         this.channels[channel].frequency.linearRampToValueAtTime(endF, this.ctx.currentTime + duration / 1000);
         setTimeout(() => {
@@ -175,11 +176,11 @@ class AudioHandler {
         }, duration)
     }
 
-    playNoise(duration, envelope=SQUARE_ENV) {
+    playNoise(duration, envelope=SQUARE_ENV, volume=1) {
         this.gains[NOISE_CHANNEL].gain.value = 0;
-        this.gains[NOISE_CHANNEL].gain.linearRampToValueAtTime(1, this.ctx.currentTime + envelope.attack/1000);
+        this.gains[NOISE_CHANNEL].gain.linearRampToValueAtTime(volume, this.ctx.currentTime + envelope.attack/1000);
         setTimeout(() => {
-            this.gains[NOISE_CHANNEL].gain.linearRampToValueAtTime(envelope.sustain, this.ctx.currentTime + envelope.decay/1000);
+            this.gains[NOISE_CHANNEL].gain.linearRampToValueAtTime(envelope.sustain * volume, this.ctx.currentTime + envelope.decay/1000);
         }, envelope.attack)
         setTimeout(() => {
             this.gains[NOISE_CHANNEL].gain.linearRampToValueAtTime(0, this.ctx.currentTime + envelope.release/1000);
@@ -193,16 +194,17 @@ class AudioHandler {
         clearInterval(this.songIntervalID);
         let stepDur = (60 * 1000) / (song.tempo * song.divisionsPerBeat);
         let curStep = 0;
+        let volume = this.volume;
         this.songIntervalID = setInterval(() => {
             if (song.notes.channel1.hasOwnProperty(curStep)) {
                 let freq = AudioHandler.noteToFreq(song.notes.channel1[curStep].pitch);
                 let dur = song.notes.channel1[curStep].duration * stepDur;
-                this.playNote(freq, dur, 1, song.env1);
+                this.playNote(freq, dur, 1, song.env1, volume);
             }
             if (song.notes.channel2.hasOwnProperty(curStep)) {
                 let freq = AudioHandler.noteToFreq(song.notes.channel2[curStep].pitch);
                 let dur = song.notes.channel2[curStep].duration * stepDur;
-                this.playNote(freq, dur, 2, song.env2);
+                this.playNote(freq, dur, 2, song.env2, volume);
             }
             curStep++;
             if (loop && curStep >= song.divisionsPerBeat * song.length) {
