@@ -100,9 +100,12 @@ const TEXT_BOX_HEIGHT = 32;
 const TEXT_DELAY = 100;
 const TEXT_LINE_LENGTH = 20;
 const TEXT_LINES = 4;
+const POINTER_SPEED = 0.005;
 
-MARBLE_TYPE_ALLEY = 0;
-MARBLE_TYPE_SHOOTER = 1;
+const MARBLE_TYPE_ALLEY = 0;
+const MARBLE_TYPE_SHOOTER = 1;
+const TURN_PLAYER = 0;
+const TURN_OPPONENT = 1;
 
 class AudioHandler {
     constructor(ctx) {
@@ -631,6 +634,27 @@ class Room {
     onEnter() {}
 }
 
+class MarblePointer {
+    constructor(parent, length=10) {
+        this.parent = parent
+        this.length = length;
+        this.angle = 0;
+    }
+
+    update(deltaT) {
+        if (inputHandler.keyPressed.right) {
+            this.angle += POINTER_SPEED * deltaT;
+        }
+        if (inputHandler.keyPressed.left) {
+            this.angle -= POINTER_SPEED * deltaT;
+        }
+
+        let cursorX = Math.round(this.parent.loc.x + this.length * Math.cos(this.angle));
+        let cursorY = Math.round(this.parent.loc.y + this.length * Math.sin(this.angle));
+        graphicsHandler.drawCircle(2, cursorX, cursorY, 2);
+    }
+}
+
 class Marble {
     constructor(radius, drag=0.001) {
         this.radius = radius;
@@ -663,6 +687,9 @@ class MarbleArena {
         this.shooter_opp = shooter_opp;
         this.alleys = [];
         this.ring_radius = 64
+        this.turn = TURN_PLAYER;
+        this.controlling = true;
+        this.pointer = new MarblePointer(this.shooter_player);
     }
 
     setAlleys(alleys) {
@@ -675,6 +702,12 @@ class MarbleArena {
     update(deltaT) {
         graphicsHandler.fillScreen(1);
         graphicsHandler.drawCircle(2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, this.ring_radius);
+
+        if (this.controlling) {
+            if (this.turn == TURN_PLAYER) {
+                this.pointer.update(deltaT);
+            }
+        }
 
         this.shooter_player.update(deltaT);
         this.shooter_opp.update(deltaT);
