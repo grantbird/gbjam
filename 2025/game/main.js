@@ -101,6 +101,9 @@ const TEXT_DELAY = 100;
 const TEXT_LINE_LENGTH = 20;
 const TEXT_LINES = 4;
 
+MARBLE_TYPE_ALLEY = 0;
+MARBLE_TYPE_SHOOTER = 1;
+
 class AudioHandler {
     constructor(ctx) {
         this.ctx = ctx;
@@ -352,7 +355,7 @@ class GraphicsHandler {
     }
 
     drawCircle(color, x, y, radius) {
-        for (let i = 0; i < Math.ceil(radius / Math.SQRT2); i++) {
+        for (let i = 0; i < Math.ceil(radius / Math.SQRT2) + 1; i++) {
             let y_val = Math.round(Math.sqrt(radius * radius - i * i));
 
             this.currScreen[y + y_val][x + i] = color;
@@ -628,15 +631,76 @@ class Room {
     onEnter() {}
 }
 
-graphicsHandler.drawCircle(2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 30);
+class Marble {
+    constructor(radius, drag=0.001) {
+        this.radius = radius;
+        this.drag = drag;
+        this.loc = {x: SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2};
+        this.velocity = {x: 0, y: 0};
+        this.type = MARBLE_TYPE_ALLEY;
+    }
+
+    setStartPos(radius) {
+        let phiRand = Math.random() * (radius - this.radius);
+        let thetaRand = Math.random() * 2 * Math.PI;
+        this.loc.x = Math.round(phiRand * Math.cos(thetaRand) + SCREEN_WIDTH / 2);
+        this.loc.y = Math.round(phiRand * Math.sin(thetaRand) + SCREEN_HEIGHT / 2);
+    }
+
+    update(deltaT) {
+        this.velocity.x -= this.velocity.x * this.drag * deltaT;
+        this.velocity.y -= this.velocity.y * this.drag * deltaT;
+        this.loc.x += this.velocity.x * deltaT;
+        this.loc.y += this.velocity.y * deltaT;
+
+        graphicsHandler.drawCircle(2, Math.floor(this.loc.x), Math.floor(this.loc.y), this.radius);
+    }
+}
+
+class MarbleArena {
+    constructor(shooter_player, shooter_opp) {
+        this.shooter_player = shooter_player;
+        this.shooter_opp = shooter_opp;
+        this.alleys = [];
+        this.ring_radius = 64
+    }
+
+    setAlleys(alleys) {
+        this.alleys = alleys;
+        for (let i = 0; i < this.alleys.length; i++) {
+            this.alleys[i].setStartPos(this.ring_radius);
+        }
+    }
+
+    update(deltaT) {
+        graphicsHandler.fillScreen(1);
+        graphicsHandler.drawCircle(2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, this.ring_radius);
+
+        this.shooter_player.update(deltaT);
+        this.shooter_opp.update(deltaT);
+        for (let i = 0; i < this.alleys.length; i++) {
+            this.alleys[i].update(deltaT);
+        }
+    }
+}
+
+arena = new MarbleArena(new Marble(10), new Marble(10));
+arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
+arena.alleys[0].velocity.y = 0.03;
 
 audioHandler.playSong(test_song, loop=true);
 
-function update() {
+var lastTime = 0;
+var deltaT = 0;
+
+function gameLoop(now) {
+    arena.update(deltaT);
 
     graphicsHandler.draw();
 
-    requestAnimationFrame(update);
+    requestAnimationFrame(gameLoop);
+    deltaT = now - lastTime;
+    lastTime = now;
 }
 
-requestAnimationFrame(update);
+requestAnimationFrame(gameLoop);
