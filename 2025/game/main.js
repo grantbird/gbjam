@@ -635,8 +635,9 @@ class Room {
 }
 
 class MarblePointer {
-    constructor(parent, length=10) {
-        this.parent = parent
+    constructor(parent, arena, length=10) {
+        this.parent = parent;
+        this.arena = arena;
         this.length = length;
         this.angle = 0;
     }
@@ -647,6 +648,11 @@ class MarblePointer {
         }
         if (inputHandler.keyPressed.left) {
             this.angle -= POINTER_SPEED * deltaT;
+        }
+        if (inputHandler.keyPressed.a) {
+            this.parent.velocity.x = 0.03 * Math.cos(this.angle);
+            this.parent.velocity.y = 0.03 * Math.sin(this.angle);
+            this.arena.controlling = false;
         }
 
         let cursorX = Math.round(this.parent.loc.x + this.length * Math.cos(this.angle));
@@ -662,6 +668,10 @@ class Marble {
         this.loc = {x: SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2};
         this.velocity = {x: 0, y: 0};
         this.type = MARBLE_TYPE_ALLEY;
+    }
+
+    getSpeedSquared() {
+        return this.velocity.x * this.velocity.x + this.velocity.y * this.velocity.y;
     }
 
     setStartPos(radius) {
@@ -689,7 +699,17 @@ class MarbleArena {
         this.ring_radius = 64
         this.turn = TURN_PLAYER;
         this.controlling = true;
-        this.pointer = new MarblePointer(this.shooter_player);
+        this.pointer = new MarblePointer(this.shooter_player, this);
+    }
+
+    getTotalMarbleSpeed() {
+        let result = 0
+        result += this.shooter_player.getSpeedSquared();
+        result += this.shooter_opp.getSpeedSquared();
+        for (let i = 0; i < this.alleys.length; i++) {
+            result += this.alleys[i].getSpeedSquared();
+        }
+        return result;
     }
 
     setAlleys(alleys) {
@@ -706,6 +726,11 @@ class MarbleArena {
         if (this.controlling) {
             if (this.turn == TURN_PLAYER) {
                 this.pointer.update(deltaT);
+            }
+        }
+        else {
+            if (this.getTotalMarbleSpeed() < 0.00001) {
+                this.controlling = true;
             }
         }
 
