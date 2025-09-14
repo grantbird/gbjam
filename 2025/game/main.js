@@ -348,7 +348,23 @@ class GraphicsHandler {
             for (let j = x; j < w; j++) {
                 this.currScreen[i][j] = color;
             }
-        } 
+        }
+    }
+
+    drawCircle(color, x, y, radius) {
+        for (let i = 0; i < Math.ceil(radius / Math.SQRT2); i++) {
+            let y_val = Math.round(Math.sqrt(radius * radius - i * i));
+
+            this.currScreen[y + y_val][x + i] = color;
+            this.currScreen[y + y_val][x - i] = color;
+            this.currScreen[y - y_val][x + i] = color;
+            this.currScreen[y - y_val][x - i] = color;
+
+            this.currScreen[y + i][x + y_val] = color;
+            this.currScreen[y + i][x - y_val] = color;
+            this.currScreen[y - i][x + y_val] = color;
+            this.currScreen[y - i][x - y_val] = color;
+        }
     }
 
     drawBitmap(map, x, y) {
@@ -611,6 +627,8 @@ class Room {
 
     onEnter() {}
 }
+
+graphicsHandler.drawCircle(2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 30);
 
 audioHandler.playSong(test_song, loop=true);
 
