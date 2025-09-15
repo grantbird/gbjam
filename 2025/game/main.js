@@ -674,18 +674,22 @@ class MarbleAiHandler {
         this.length = length;
         this.angle = 0;
         this.targetAngle = 0;
+        this.accuracy = 0;
     }
 
     pickTargetAngle() {
         let targetMarbleIndex = Math.floor(Math.random() * this.arena.alleys.length);
-        let targetMarble = this.alleys[targetMarbleIndex];
-        let perfectAngle = Math.atan2(targetMarble.y - this.parent.y, targetMarble.x - this.parent.x)
+        let targetMarble = this.arena.alleys[targetMarbleIndex];
+        let perfectAngle = Math.atan2(targetMarble.loc.y - this.parent.loc.y, targetMarble.loc.x - this.parent.loc.x);
+        this.targetAngle = perfectAngle + (Math.random() - 0.5) * this.accuracy;
+        this.targetAngle = (this.targetAngle + (2 * Math.PI)) % (2 * Math.PI);
     }
 
     update(deltaT) {
         this.angle += POINTER_SPEED * deltaT;
+        this.angle = this.angle % (Math.PI * 2);
 
-        if (Math.random() > 0.95) {
+        if (Math.abs(this.angle - this.targetAngle) < 2 * POINTER_SPEED * deltaT) {
             this.parent.velocity.x = 0.03 * Math.cos(this.angle);
             this.parent.velocity.y = 0.03 * Math.sin(this.angle);
             this.arena.controlling = false;
@@ -725,15 +729,21 @@ class Marble {
 
     update(deltaT) {
         if (this.arena !== null) {
-            if (this.type != MARBLE_TYPE_SHOOTER && this.isTouching(this.arena.shooter_player)) {
-                let alpha = (this.arena.shooter_player.mass - this.mass) / (this.arena.shooter_player.mass + this.mass);
-                let beta = 2 * this.mass / (this.arena.shooter_player.mass + this.mass);
-                let tempVelX = this.arena.shooter_player.velocity.x;
-                let tempVelY = this.arena.shooter_player.velocity.y;
-                this.arena.shooter_player.velocity.x = alpha * tempVelX + beta * this.velocity.x;
-                this.arena.shooter_player.velocity.y = alpha * tempVelY + beta * this.velocity.y;
-                this.velocity.x = beta * tempVelX + alpha * this.velocity.x;
-                this.velocity.y = beta * tempVelY + alpha * this.velocity.y;
+            if (this.type != MARBLE_TYPE_SHOOTER) {
+                let shooters = [this.arena.shooter_player, this.arena.shooter_opp];
+                for (let i = 0; i < shooters.length; i++) {
+                    let shooter = shooters[i];
+                    if (this.isTouching(shooter)) {
+                        let alpha = (shooter.mass - this.mass) / (shooter.mass + this.mass);
+                        let beta = 2 * this.mass / (shooter.mass + this.mass);
+                        let tempVelX = shooter.velocity.x;
+                        let tempVelY = shooter.velocity.y;
+                        shooter.velocity.x = alpha * tempVelX + beta * this.velocity.x;
+                        shooter.velocity.y = alpha * tempVelY + beta * this.velocity.y;
+                        this.velocity.x = beta * tempVelX + alpha * this.velocity.x;
+                        this.velocity.y = beta * tempVelY + alpha * this.velocity.y;
+                    }
+                }
             }
         }
         this.velocity.x -= this.velocity.x * this.drag * deltaT;
@@ -797,6 +807,9 @@ class MarbleArena {
             if (this.getTotalMarbleSpeed() < 0.00001) {
                 this.turn = (this.turn + 1) % 2;
                 this.controlling = true;
+                if (this.turn == TURN_OPPONENT) {
+                    this.marbleAiHandler.pickTargetAngle();
+                }
             }
         }
 
