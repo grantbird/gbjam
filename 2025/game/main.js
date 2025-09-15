@@ -693,7 +693,7 @@ class Marble {
 
     update(deltaT) {
         if (this.arena !== null) {
-            if (this.isTouching(this.arena.shooter_player)) {
+            if (this.type != MARBLE_TYPE_SHOOTER && this.isTouching(this.arena.shooter_player)) {
                 let alpha = (this.arena.shooter_player.mass - this.mass) / (this.arena.shooter_player.mass + this.mass);
                 let beta = 2 * this.mass / (this.arena.shooter_player.mass + this.mass);
                 this.arena.shooter_player.velocity.x = alpha * this.arena.shooter_player.velocity.x + beta + this.velocity.x;
