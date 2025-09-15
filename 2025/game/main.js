@@ -680,6 +680,10 @@ class MarbleAiHandler {
     pickTargetAngle() {
         let targetMarbleIndex = Math.floor(Math.random() * this.arena.alleys.length);
         let targetMarble = this.arena.alleys[targetMarbleIndex];
+        while (!targetMarble.inBounds()) {
+            targetMarbleIndex = Math.floor(Math.random() * this.arena.alleys.length);
+            targetMarble = this.arena.alleys[targetMarbleIndex];
+        }
         let perfectAngle = Math.atan2(targetMarble.loc.y - this.parent.loc.y, targetMarble.loc.x - this.parent.loc.x);
         this.targetAngle = perfectAngle + (Math.random() - 0.5) * this.accuracy;
         this.targetAngle = (this.targetAngle + (2 * Math.PI)) % (2 * Math.PI);
@@ -710,6 +714,11 @@ class Marble {
         this.velocity = {x: 0, y: 0};
         this.type = MARBLE_TYPE_ALLEY;
         this.arena = null;
+    }
+
+    inBounds() {
+        let arenaCenter = {x: SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2};
+        return getDistance(this.loc, arenaCenter) <= this.arena.ring_radius + this.radius;
     }
 
     isTouching(other) {
