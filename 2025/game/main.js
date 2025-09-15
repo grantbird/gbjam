@@ -722,6 +722,9 @@ class Marble {
                 return true;
             }
         }
+        if (this.type == MARBLE_TYPE_ALLEY) {
+            return this.isTouching(this.arena.shooter_opp) || this.isTouching(this.arena.shooter_player);
+        }
         return false;
     }
 
