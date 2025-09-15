@@ -101,6 +101,7 @@ const TEXT_DELAY = 100;
 const TEXT_LINE_LENGTH = 20;
 const TEXT_LINES = 4;
 const POINTER_SPEED = 0.005;
+const MARBLE_CURSOR_SPEED = 0.1;
 
 const MARBLE_TYPE_ALLEY = 0;
 const MARBLE_TYPE_SHOOTER = 1;
@@ -795,7 +796,8 @@ class MarbleArena {
         this.shooter_opp.arena = this;
         this.shooter_opp.setStartPos();
         this.turn = TURN_PLAYER;
-        this.controlling = true;
+        this.controlling = false;
+        this.initialPlacing = true;
         this.pointer = new MarblePointer(this.shooter_player, this);
         this.marbleAiHandler = new MarbleAiHandler(this.shooter_opp, this);
     }
@@ -822,7 +824,26 @@ class MarbleArena {
         graphicsHandler.fillScreen(1);
         graphicsHandler.drawCircle(2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, this.ring_radius);
 
-        if (this.controlling) {
+        if (this.initialPlacing) {
+            if (inputHandler.keyPressed.up) {
+                this.shooter_player.loc.y -= MARBLE_CURSOR_SPEED * deltaT;
+            }
+            if (inputHandler.keyPressed.down) {
+                this.shooter_player.loc.y += MARBLE_CURSOR_SPEED * deltaT;
+            }
+            if (inputHandler.keyPressed.right) {
+                this.shooter_player.loc.x += MARBLE_CURSOR_SPEED * deltaT;
+            }
+            if (inputHandler.keyPressed.left) {
+                this.shooter_player.loc.x -= MARBLE_CURSOR_SPEED * deltaT;
+            }
+            if (inputHandler.keyPressed.start) {
+                this.initialPlacing = false;
+                this.controlling = true;
+            }
+        }
+
+        else if (this.controlling) {
             if (this.turn == TURN_PLAYER) {
                 this.pointer.update(deltaT);
             }
@@ -830,6 +851,7 @@ class MarbleArena {
                 this.marbleAiHandler.update(deltaT);
             }
         }
+
         else {
             if (this.getTotalMarbleSpeed() < 0.00001) {
                 this.turn = (this.turn + 1) % 2;
@@ -850,7 +872,6 @@ class MarbleArena {
 
 arena = new MarbleArena(new Marble(10), new Marble(10));
 arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
-//arena.alleys[0].velocity.y = 0.03;
 
 audioHandler.playSong(test_song, loop=true);
 
