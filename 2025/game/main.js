@@ -667,6 +667,36 @@ class MarblePointer {
     }
 }
 
+class MarbleAiHandler {
+    constructor(parent, arena, length=10) {
+        this.parent = parent;
+        this.arena = arena;
+        this.length = length;
+        this.angle = 0;
+        this.targetAngle = 0;
+    }
+
+    pickTargetAngle() {
+        let targetMarbleIndex = Math.floor(Math.random() * this.arena.alleys.length);
+        let targetMarble = this.alleys[targetMarbleIndex];
+        let perfectAngle = Math.atan2(targetMarble.y - this.parent.y, targetMarble.x - this.parent.x)
+    }
+
+    update(deltaT) {
+        this.angle += POINTER_SPEED * deltaT;
+
+        if (Math.random() > 0.95) {
+            this.parent.velocity.x = 0.03 * Math.cos(this.angle);
+            this.parent.velocity.y = 0.03 * Math.sin(this.angle);
+            this.arena.controlling = false;
+        }
+
+        let cursorX = Math.round(this.parent.loc.x + this.length * Math.cos(this.angle));
+        let cursorY = Math.round(this.parent.loc.y + this.length * Math.sin(this.angle));
+        graphicsHandler.drawCircle(2, cursorX, cursorY, 2);
+    }
+}
+
 class Marble {
     constructor(radius, drag=0.001, mass=1) {
         this.radius = radius;
@@ -730,6 +760,7 @@ class MarbleArena {
         this.turn = TURN_PLAYER;
         this.controlling = true;
         this.pointer = new MarblePointer(this.shooter_player, this);
+        this.marbleAiHandler = new MarbleAiHandler(this.shooter_opp, this);
     }
 
     getTotalMarbleSpeed() {
@@ -758,9 +789,13 @@ class MarbleArena {
             if (this.turn == TURN_PLAYER) {
                 this.pointer.update(deltaT);
             }
+            else {
+                this.marbleAiHandler.update(deltaT);
+            }
         }
         else {
             if (this.getTotalMarbleSpeed() < 0.00001) {
+                this.turn = (this.turn + 1) % 2;
                 this.controlling = true;
             }
         }
