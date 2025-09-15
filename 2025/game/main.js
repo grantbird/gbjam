@@ -698,10 +698,12 @@ class Marble {
             if (this.type != MARBLE_TYPE_SHOOTER && this.isTouching(this.arena.shooter_player)) {
                 let alpha = (this.arena.shooter_player.mass - this.mass) / (this.arena.shooter_player.mass + this.mass);
                 let beta = 2 * this.mass / (this.arena.shooter_player.mass + this.mass);
-                this.arena.shooter_player.velocity.x = alpha * this.arena.shooter_player.velocity.x + beta + this.velocity.x;
-                this.arena.shooter_player.velocity.y = alpha * this.arena.shooter_player.velocity.y + beta + this.velocity.y;
-                this.velocity.x = beta * this.arena.shooter_player.velocity.x + alpha + this.velocity.x;
-                this.velocity.y = beta * this.arena.shooter_player.velocity.y + alpha + this.velocity.y;
+                let tempVelX = this.arena.shooter_player.velocity.x;
+                let tempVelY = this.arena.shooter_player.velocity.y;
+                this.arena.shooter_player.velocity.x = alpha * tempVelX + beta * this.velocity.x;
+                this.arena.shooter_player.velocity.y = alpha * tempVelY + beta * this.velocity.y;
+                this.velocity.x = beta * tempVelX + alpha * this.velocity.x;
+                this.velocity.y = beta * tempVelY + alpha * this.velocity.y;
             }
         }
         this.velocity.x -= this.velocity.x * this.drag * deltaT;
