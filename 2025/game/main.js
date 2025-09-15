@@ -713,18 +713,33 @@ class Marble {
     }
 
     isTouching(other) {
-        return getDistance(this.loc, other.loc) <= this.radius + other.radius;
+        return (this.loc != other.loc) && (getDistance(this.loc, other.loc) <= this.radius + other.radius);
+    }
+
+    isTouchingAny() {
+        for (let i = 0; i < this.arena.alleys.length; i++) {
+            if (this.isTouching(this.arena.alleys[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     getSpeedSquared() {
         return this.velocity.x * this.velocity.x + this.velocity.y * this.velocity.y;
     }
 
-    setStartPos(radius) {
-        let phiRand = Math.random() * (radius - this.radius);
+    setStartPos() {
+        let phiRand = Math.random() * (this.arena.ring_radius - this.radius);
         let thetaRand = Math.random() * 2 * Math.PI;
         this.loc.x = Math.round(phiRand * Math.cos(thetaRand) + SCREEN_WIDTH / 2);
         this.loc.y = Math.round(phiRand * Math.sin(thetaRand) + SCREEN_HEIGHT / 2);
+        while (this.isTouchingAny()) {
+            let phiRand = Math.random() * (this.arena.ring_radius - this.radius);
+            let thetaRand = Math.random() * 2 * Math.PI;
+            this.loc.x = Math.round(phiRand * Math.cos(thetaRand) + SCREEN_WIDTH / 2);
+            this.loc.y = Math.round(phiRand * Math.sin(thetaRand) + SCREEN_HEIGHT / 2);
+        }
     }
 
     update(deltaT) {
@@ -758,15 +773,15 @@ class Marble {
 class MarbleArena {
     constructor(shooter_player, shooter_opp) {
         this.ring_radius = 64
+        this.alleys = [];
         this.shooter_player = shooter_player;
         this.shooter_player.type = MARBLE_TYPE_SHOOTER;
         this.shooter_player.arena = this;
-        this.shooter_player.setStartPos(this.ring_radius);
+        this.shooter_player.setStartPos();
         this.shooter_opp = shooter_opp;
         this.shooter_opp.type = MARBLE_TYPE_SHOOTER;
         this.shooter_opp.arena = this;
-        this.shooter_opp.setStartPos(this.ring_radius);
-        this.alleys = [];
+        this.shooter_opp.setStartPos();
         this.turn = TURN_PLAYER;
         this.controlling = true;
         this.pointer = new MarblePointer(this.shooter_player, this);
@@ -786,8 +801,8 @@ class MarbleArena {
     setAlleys(alleys) {
         this.alleys = alleys;
         for (let i = 0; i < this.alleys.length; i++) {
-            this.alleys[i].setStartPos(this.ring_radius);
             this.alleys[i].arena = this;
+            this.alleys[i].setStartPos();
         }
     }
 
@@ -823,7 +838,7 @@ class MarbleArena {
 
 arena = new MarbleArena(new Marble(10), new Marble(10));
 arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
-arena.alleys[0].velocity.y = 0.03;
+//arena.alleys[0].velocity.y = 0.03;
 
 audioHandler.playSong(test_song, loop=true);
 
