@@ -338,7 +338,9 @@ class GraphicsHandler {
     }
 
     drawPixel(color, x, y) {
-        this.currScreen[y][x] = color;
+        if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT) {
+            this.currScreen[y][x] = color;
+        }
     }
 
     fillScreen(color) {
@@ -361,15 +363,15 @@ class GraphicsHandler {
         for (let i = 0; i < Math.ceil(radius / Math.SQRT2) + 1; i++) {
             let y_val = Math.round(Math.sqrt(radius * radius - i * i));
 
-            this.currScreen[y + y_val][x + i] = color;
-            this.currScreen[y + y_val][x - i] = color;
-            this.currScreen[y - y_val][x + i] = color;
-            this.currScreen[y - y_val][x - i] = color;
+            this.drawPixel(color, x + i, y + y_val);
+            this.drawPixel(color, x - i, y + y_val);
+            this.drawPixel(color, x + i, y - y_val);
+            this.drawPixel(color, x - i, y - y_val);
 
-            this.currScreen[y + i][x + y_val] = color;
-            this.currScreen[y + i][x - y_val] = color;
-            this.currScreen[y - i][x + y_val] = color;
-            this.currScreen[y - i][x - y_val] = color;
+            this.drawPixel(color, x + y_val, y + i);
+            this.drawPixel(color, x - y_val, y + i);
+            this.drawPixel(color, x + y_val, y - i);
+            this.drawPixel(color, x - y_val, y - i);
         }
     }
 
