@@ -896,6 +896,28 @@ class MarbleArena {
     }
 }
 
+const columnTile = new Tile(column_bmp, true);
+const cornerBottomLeftTile = new Tile(corner_bottom_left_bmp, true);
+const cornerBottomRightTile = new Tile(corner_bottom_right_bmp, true);
+const cornerTopLeftTile = new Tile(corner_top_left_bmp, true);
+const cornerTopRightTile = new Tile(corner_top_right_bmp, true);
+const kakejikuBottomLeftTile = new Tile(kakejiku_bottom_left_bmp, true);
+const kakejikuBottomRightTile = new Tile(kakejiku_bottom_right_bmp, true);
+const kakejikuTopLeftTile = new Tile(kakejiku_top_left_bmp, true);
+const kakejikuTopRightTile = new Tile(kakejiku_top_right_bmp, true);
+const marbleStandTile = new Tile(marble_stand_bmp, true);
+const ringBottomLeftTile = new Tile(ring_bottom_left_bmp, false);
+const ringBottomRightTile = new Tile(ring_bottom_right_bmp, false);
+const ringTopLeftTile = new Tile(ring_top_left_bmp, false);
+const ringTopRightTile = new Tile(ring_top_right_bmp, false);
+const swordTile = new Tile(sword_bmp, true);
+const tatamiBottomTile = new Tile(tatami_bottom_bmp, false);
+const tatamiTopTile = new Tile(tatami_top_bmp, false);
+const tatamiLeftTile = new Tile(tatami_left_bmp, false);
+const tatamiRightTile = new Tile(tatami_right_bmp, false);
+const wallHorizontalTile = new Tile(wall_horizontal_bmp, true);
+const wallVerticalTile = new Tile(wall_vertical_bmp, true);
+
 arena = new MarbleArena(new Marble(10), new Marble(10));
 arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
 
