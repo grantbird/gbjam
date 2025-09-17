@@ -107,6 +107,8 @@ const MARBLE_TYPE_ALLEY = 0;
 const MARBLE_TYPE_SHOOTER = 1;
 const TURN_PLAYER = 0;
 const TURN_OPPONENT = 1;
+const WINDOW_OVERWORLD = 0;
+const WINDOW_ARENA = 1;
 
 /* SPRITES */
 
@@ -859,55 +861,24 @@ class World {
     constructor(rooms, startX, startY) {
         this.rooms = rooms;
         this.currentRoom = {x:startX, y:startY};
-        this.text = "";
-        this.textOpen = false;
-        this.textChars = 0;
-        this.intervalCode;
-        this.titleOpen = false;
-        this.endOpen = false;
     }
 
     getCurrRoom() {
         return this.rooms[this.currentRoom.y][this.currentRoom.x];
     }
 
-    displayTextBox(text) {
-        this.textOpen = true;
-        this.text = text;
-        this.textChars = 0;
-        this.intervalCode = setInterval(() => {this.textChars++}, TEXT_DELAY);
-    }
-
     update() {
         graphicsHandler.fillScreen(this.getCurrRoom().bgColor);
-        if (this.titleOpen && (inputHandler.keyPressed.start || inputHandler.keyPressed.select)) {
-            this.titleOpen = false;
-        }
+
         for (let i = 0; i < SCREEN_HEIGHT / TILE_SIZE; i++) {
             for (let j = 0; j < SCREEN_WIDTH / TILE_SIZE; j++) {
                 let currTile = this.getCurrRoom().tiles[i][j];
                 graphicsHandler.drawBitmap(currTile.img, j * TILE_SIZE, i * TILE_SIZE);
             }
         }
+
         for (let i = 0; i < this.getCurrRoom().characters.length; i++) {
             this.getCurrRoom().characters[i].update();
-        }
-        if (this.textOpen) {
-            graphicsHandler.fillRect(4, 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
-            let currText = this.text.substring(0, this.textChars);
-            for (let i = 0; i < TEXT_LINES; i++) {
-                graphicsHandler.drawText(currText.slice(i * TEXT_LINE_LENGTH, (i + 1) * TEXT_LINE_LENGTH), 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT + i * 8);
-            }
-            if (inputHandler.keyPressed.a || inputHandler.keyPressed.b) {
-                this.textOpen = false;
-                clearInterval(this.intervalCode);
-            }
-        }
-        if (this.titleOpen) {
-            //graphicsHandler.drawBitmap(title_bmp, 0, 0);
-        }
-        if (this.endOpen) {
-            //graphicsHandler.drawBitmap(end_bmp, 0, 0);
         }
     }
 }
@@ -1287,6 +1258,49 @@ class MarbleArena {
     }
 }
 
+class Game {
+    constructor(overworld, player) {
+        this.overworld = overworld;
+        this.player = player;
+        this.currWindow = WINDOW_OVERWORLD;
+        this.arena = null;
+        this.text = "";
+        this.textOpen = false;
+        this.textChars = 0;
+        this.intervalCode;
+    }
+
+    displayTextBox(text) {
+        this.textOpen = true;
+        this.text = text;
+        this.textChars = 0;
+        this.intervalCode = setInterval(() => {this.textChars++}, TEXT_DELAY);
+    }
+
+    update(deltaT) {
+        if (this.currWindow == WINDOW_OVERWORLD) {
+            this.overworld.update();
+            this.player.update();
+        }
+        
+        else if (this.currWindow == WINDOW_ARENA) {
+            this.arena.update(deltaT);
+        }
+
+        if (this.textOpen) {
+            graphicsHandler.fillRect(4, 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+            let currText = this.text.substring(0, this.textChars);
+            for (let i = 0; i < TEXT_LINES; i++) {
+                graphicsHandler.drawText(currText.slice(i * TEXT_LINE_LENGTH, (i + 1) * TEXT_LINE_LENGTH), 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT + i * 8);
+            }
+            if (inputHandler.keyPressed.a || inputHandler.keyPressed.b) {
+                this.textOpen = false;
+                clearInterval(this.intervalCode);
+            }
+        }
+    }
+}
+
 const columnTile = new Tile(column_bmp, true);
 const cornerBottomLeftTile = new Tile(corner_bottom_left_bmp, true);
 const cornerBottomRightTile = new Tile(corner_bottom_right_bmp, true);
@@ -1327,6 +1341,8 @@ const world = new World([[dojoRoom]], 0, 0);
 
 const player = new Player({idleR:morihei_bmp, idleL:morihei_bmp, f0R:morihei_bmp, f1R:morihei_bmp, f2R:morihei_bmp, f3R:morihei_bmp, f0L:morihei_bmp, f1L:morihei_bmp, f2L:morihei_bmp, f3L:morihei_bmp}, 64, 64, world);
 
+const game = new Game(world, player);
+
 arena = new MarbleArena(new Marble(10), new Marble(10));
 arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
 
@@ -1337,8 +1353,7 @@ var deltaT = 0;
 
 function gameLoop(now) {
     //arena.update(deltaT);
-    world.update();
-    player.update();
+    game.update(deltaT);
 
     graphicsHandler.draw();
 
