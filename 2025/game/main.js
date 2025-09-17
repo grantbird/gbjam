@@ -861,6 +861,7 @@ class World {
     constructor(rooms, startX, startY) {
         this.rooms = rooms;
         this.currentRoom = {x:startX, y:startY};
+        this.game = null;
     }
 
     getCurrRoom() {
@@ -1188,6 +1189,7 @@ class MarbleArena {
         this.initialPlacing = true;
         this.pointer = new MarblePointer(this.shooter_player, this);
         this.marbleAiHandler = new MarbleAiHandler(this.shooter_opp, this);
+        this.game = null;
     }
 
     getTotalMarbleSpeed() {
@@ -1261,6 +1263,7 @@ class MarbleArena {
 class Game {
     constructor(overworld, player) {
         this.overworld = overworld;
+        this.overworld.game = this;
         this.player = player;
         this.currWindow = WINDOW_OVERWORLD;
         this.arena = null;
@@ -1277,12 +1280,20 @@ class Game {
         this.intervalCode = setInterval(() => {this.textChars++}, TEXT_DELAY);
     }
 
+    startMarbleGame() {
+        this.arena = new MarbleArena(new Marble(10), new Marble(10));
+        this.arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
+        this.arena.game = this;
+        this.currWindow = WINDOW_ARENA;
+        this.displayTextBox("Place your shooter and press Start.");
+    }
+
     update(deltaT) {
         if (this.currWindow == WINDOW_OVERWORLD) {
             this.overworld.update();
             this.player.update();
         }
-        
+
         else if (this.currWindow == WINDOW_ARENA) {
             this.arena.update(deltaT);
         }
@@ -1342,9 +1353,7 @@ const world = new World([[dojoRoom]], 0, 0);
 const player = new Player({idleR:morihei_bmp, idleL:morihei_bmp, f0R:morihei_bmp, f1R:morihei_bmp, f2R:morihei_bmp, f3R:morihei_bmp, f0L:morihei_bmp, f1L:morihei_bmp, f2L:morihei_bmp, f3L:morihei_bmp}, 64, 64, world);
 
 const game = new Game(world, player);
-
-arena = new MarbleArena(new Marble(10), new Marble(10));
-arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
+game.startMarbleGame();
 
 audioHandler.playSong(test_song, loop=true);
 
@@ -1352,7 +1361,6 @@ var lastTime = 0;
 var deltaT = 0;
 
 function gameLoop(now) {
-    //arena.update(deltaT);
     game.update(deltaT);
 
     graphicsHandler.draw();
