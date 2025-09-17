@@ -11,7 +11,7 @@ Each pixel in the image will be represented with the integer that matches with i
 The completed line of JavaScript code will appear in the user's clipboard.
 '''
 
-COLORS = {1:[0, 0, 0, 255], 2:[85, 85, 85, 255], 3:[170, 170, 170, 255], 4:[255, 255, 255, 255]}
+COLORS = {1:[0, 0, 0, 255], 2:[70, 70, 70, 255], 3:[180, 180, 180, 255], 4:[255, 255, 255, 255]}
 
 def to_palette(file_path):
     '''
