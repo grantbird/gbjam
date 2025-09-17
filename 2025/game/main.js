@@ -109,6 +109,12 @@ const TURN_PLAYER = 0;
 const TURN_OPPONENT = 1;
 const WINDOW_OVERWORLD = 0;
 const WINDOW_ARENA = 1;
+const SEQUENCE_PLACE_SHOOTER = 0;
+const SEQUENCE_PLACE_ALLEYS = 1;
+const SEQUENCE_FLIP_COIN = 2;
+const SEQUENCE_PLAYER_TURN = 3;
+const SEQUENCE_AI_TURN = 4;
+const SEQUENCE_MARBLE_RESOLVE = 5;
 
 /* SPRITES */
 
@@ -1048,7 +1054,7 @@ class MarblePointer {
         if (inputHandler.keyPressed.a) {
             this.parent.velocity.x = 0.03 * Math.cos(this.angle);
             this.parent.velocity.y = 0.03 * Math.sin(this.angle);
-            this.arena.controlling = false;
+            this.arena.currSequence = SEQUENCE_MARBLE_RESOLVE;
         }
 
         let cursorX = Math.round(this.parent.loc.x + this.length * Math.cos(this.angle));
@@ -1086,7 +1092,7 @@ class MarbleAiHandler {
         if (Math.abs(this.angle - this.targetAngle) < 2 * POINTER_SPEED * deltaT) {
             this.parent.velocity.x = 0.03 * Math.cos(this.angle);
             this.parent.velocity.y = 0.03 * Math.sin(this.angle);
-            this.arena.controlling = false;
+            this.arena.currSequence = SEQUENCE_MARBLE_RESOLVE;
         }
 
         let cursorX = Math.round(this.parent.loc.x + this.length * Math.cos(this.angle));
@@ -1179,14 +1185,14 @@ class MarbleArena {
         this.shooter_player = shooter_player;
         this.shooter_player.type = MARBLE_TYPE_SHOOTER;
         this.shooter_player.arena = this;
-        this.shooter_player.setStartPos();
+        this.shooter_player.loc.x = SCREEN_WIDTH / 2;
+        this.shooter_player.loc.y = SCREEN_HEIGHT / 2;
         this.shooter_opp = shooter_opp;
         this.shooter_opp.type = MARBLE_TYPE_SHOOTER;
         this.shooter_opp.arena = this;
-        this.shooter_opp.setStartPos();
-        this.turn = TURN_PLAYER;
-        this.controlling = false;
-        this.initialPlacing = true;
+        this.shooter_opp.loc.x = -SCREEN_WIDTH;
+        this.shooter_opp.loc.y = -SCREEN_HEIGHT;
+        this.currSequence = SEQUENCE_PLACE_SHOOTER;
         this.pointer = new MarblePointer(this.shooter_player, this);
         this.marbleAiHandler = new MarbleAiHandler(this.shooter_opp, this);
         this.game = null;
@@ -1214,7 +1220,7 @@ class MarbleArena {
         graphicsHandler.fillScreen(1);
         graphicsHandler.drawCircle(2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, this.ring_radius);
 
-        if (this.initialPlacing) {
+        if (this.currSequence == SEQUENCE_PLACE_SHOOTER) {
             if (inputHandler.keyPressed.up) {
                 this.shooter_player.loc.y -= MARBLE_CURSOR_SPEED * deltaT;
             }
@@ -1228,24 +1234,30 @@ class MarbleArena {
                 this.shooter_player.loc.x -= MARBLE_CURSOR_SPEED * deltaT;
             }
             if (inputHandler.keyPressed.start) {
-                this.initialPlacing = false;
-                this.controlling = true;
+                this.currSequence = SEQUENCE_PLACE_ALLEYS;
+                this.shooter_opp.setStartPos();
+                this.game.displayTextBox("Placing alleys...");
+                this.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
             }
         }
 
-        else if (this.controlling) {
-            if (this.turn == TURN_PLAYER) {
-                this.pointer.update(deltaT);
-            }
-            else {
-                this.marbleAiHandler.update(deltaT);
+        else if (this.currSequence == SEQUENCE_PLAYER_TURN) {
+            this.pointer.update(deltaT);
+        }
+
+        else if (this.currSequence == SEQUENCE_AI_TURN) {
+            this.marbleAiHandler.update(deltaT);
+        }
+
+        else if (this.currSequence == SEQUENCE_PLACE_ALLEYS) {
+            if (inputHandler.keyPressed.start) {
+                this.currSequence = SEQUENCE_PLAYER_TURN;
             }
         }
 
-        else {
+        else if (this.currSequence == SEQUENCE_MARBLE_RESOLVE) {
             if (this.getTotalMarbleSpeed() < 0.00001) {
-                this.turn = (this.turn + 1) % 2;
-                this.controlling = true;
+                this.currSequence = SEQUENCE_PLAYER_TURN;
                 if (this.turn == TURN_OPPONENT) {
                     this.marbleAiHandler.pickTargetAngle();
                 }
@@ -1282,7 +1294,7 @@ class Game {
 
     startMarbleGame() {
         this.arena = new MarbleArena(new Marble(10), new Marble(10));
-        this.arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
+        //this.arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
         this.arena.game = this;
         this.currWindow = WINDOW_ARENA;
         this.displayTextBox("Place your shooter and press Start.");
