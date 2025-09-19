@@ -2075,8 +2075,8 @@ class MarblePointer {
             this.angle -= POINTER_SPEED * deltaT;
         }
         if (inputHandler.keyPressed.a) {
-            this.parent.velocity.x = 0.03 * Math.cos(this.angle);
-            this.parent.velocity.y = 0.03 * Math.sin(this.angle);
+            this.parent.velocity.x = this.parent.speed * Math.cos(this.angle);
+            this.parent.velocity.y = this.parent.speed * Math.sin(this.angle);
             this.arena.currSequence = SEQUENCE_MARBLE_RESOLVE;
         }
 
@@ -2113,8 +2113,8 @@ class MarbleAiHandler {
         this.angle = this.angle % (Math.PI * 2);
 
         if (Math.abs(this.angle - this.targetAngle) < 2 * POINTER_SPEED * deltaT) {
-            this.parent.velocity.x = 0.03 * Math.cos(this.angle);
-            this.parent.velocity.y = 0.03 * Math.sin(this.angle);
+            this.parent.velocity.x = this.parent.speed * Math.cos(this.angle);
+            this.parent.velocity.y = this.parent.speed * Math.sin(this.angle);
             this.arena.currSequence = SEQUENCE_MARBLE_RESOLVE;
         }
 
@@ -2125,10 +2125,11 @@ class MarbleAiHandler {
 }
 
 class Marble {
-    constructor(radius, drag=0.001, mass=1) {
+    constructor(radius, drag=0.001, mass=1, speed=0.03) {
         this.radius = radius;
         this.drag = drag;
         this.mass = mass;
+        this.speed = speed;
         this.loc = {x: SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2};
         this.velocity = {x: 0, y: 0};
         this.type = MARBLE_TYPE_ALLEY;
