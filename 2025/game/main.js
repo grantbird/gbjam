@@ -1357,7 +1357,10 @@ class Character {
         this.room = null;
     }
     onInteract() {
-        this.room.world.game.displayTextBox(this.dialogue, () => {console.log("Text finished.")});
+        this.room.world.game.displayTextBox(this.dialogue, () => {
+            this.room.world.game.startMarbleGame();
+            audioHandler.playSong(bossSong, loop=true);
+        });
         audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
     }
     update() {
@@ -1824,7 +1827,7 @@ const dojoRoomTiles = [
 
 const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.");
 
-const dojoRoom = new Room(dojoRoomTiles, music=dojoSong, characters=[morihei], music=dojoSong);
+const dojoRoom = new Room(dojoRoomTiles, bgColor=3, characters=[morihei], music=dojoSong);
 
 const world = new World([[dojoRoom]], 0, 0);
 
