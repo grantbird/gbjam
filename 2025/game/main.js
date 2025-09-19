@@ -2461,13 +2461,25 @@ const overworldTopTiles = [
     [treeTile, flowerTile, flowerTile, flowerTile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, treeTile], 
     [cliffTopTile, cliffTopTile, grassSand1Tile, grassSand2Tile, grassSand1Tile, grassSand2Tile, grassSand1Tile, grassSand2Tile, cliffTopTile, cliffTopTile]
 ]
+const overworldBottomTiles = [
+    [cliffBottomTile, cliffBottomTile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, cliffBottomTile, cliffBottomTile], 
+    [cliffTopTile, sand1Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, rockTile],
+    [cliffBottomTile, sand2Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, rockTile], 
+    [waterTile, shoreVerticalTile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, rockTile], 
+    [waterTile, shoreVerticalTile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, rockTile], 
+    [waterTile, shoreVerticalTile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, rockTile], 
+    [waterTile, shoreCornerTile, shoreTile, shoreTile, shoreTile, shoreTile, shoreTile, plankLeftTile, plankRightTile, shoreTile], 
+    [waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, plankLeftTile, plankRightTile, waterTile], 
+    [waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile]
+];
 
 const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.");
 
 const dojoRoom = new Room(dojoRoomTiles, 3, [morihei], dojoSong);
 const overworldTopRoom = new Room(overworldTopTiles, 3, [], gamblingSong);
+const overworldBottomRoom = new Room(overworldBottomTiles, 3, [], gamblingSong);
 
-const world = new World([[overworldTopRoom, dojoRoom]], 0, 0);
+const world = new World([[overworldTopRoom, dojoRoom], [overworldBottomRoom, null]], 0, 0);
 
 const player = new Player({
     idleR:gato_fr_neutral_bmp, 
