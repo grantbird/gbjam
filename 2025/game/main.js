@@ -1357,7 +1357,7 @@ class Character {
         this.room = null;
     }
     onInteract() {
-        this.room.world.game.displayTextBox(this.dialogue);
+        this.room.world.game.displayTextBox(this.dialogue, () => {console.log("Text finished.")});
         audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
     }
     update() {
@@ -1743,14 +1743,16 @@ class Game {
         this.textOpen = false;
         this.textChars = 0;
         this.intervalCode;
+        this.onTextFinish = () => {};
     }
 
-    displayTextBox(text) {
+    displayTextBox(text, onTextFinish = () => {}) {
         clearInterval(this.intervalCode);
         this.textOpen = true;
         this.text = text;
         this.textChars = 0;
         this.intervalCode = setInterval(() => {this.textChars++}, TEXT_DELAY);
+        this.onTextFinish = onTextFinish;
     }
 
     startMarbleGame() {
@@ -1780,6 +1782,7 @@ class Game {
             if ((inputHandler.keyPressed.a || inputHandler.keyPressed.b) && this.textChars != 0) {
                 this.textOpen = false;
                 clearInterval(this.intervalCode);
+                this.onTextFinish();
             }
         }
     }
