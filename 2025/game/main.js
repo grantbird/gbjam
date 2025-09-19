@@ -1890,6 +1890,24 @@ const gato_fr_walk_up_bmp = [
     [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0], 
     [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
+const store_owner_bmp = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0], 
+    [0, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, 4, 3, 4, 0, 4], 
+    [0, 0, 3, 0, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 0], 
+    [0, 0, 0, 3, 3, 4, 3, 3, 4, 4, 4, 2, 4, 4, 0, 4], 
+    [0, 0, 0, 4, 3, 1, 3, 3, 1, 4, 4, 1, 4, 4, 4, 0], 
+    [3, 3, 3, 4, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0], 
+    [0, 0, 0, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0], 
+    [0, 0, 3, 0, 2, 1, 3, 3, 3, 3, 1, 1, 2, 0, 0, 4], 
+    [0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 0, 0], 
+    [0, 0, 0, 2, 2, 4, 4, 1, 1, 4, 4, 2, 2, 0, 0, 0], 
+    [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0], 
+    [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 2, 2, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 2, 2, 2, 0, 0, 2, 2, 2, 0, 0, 0, 0],
+];
 
 class AudioHandler {
     constructor(ctx) {
@@ -2874,9 +2892,10 @@ const overworldBottomTiles = [
 
 const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.");
 const squatter = new Character({f0:squatter_bmp}, 48, 80, delay=10000, fFrames=1, dialogue="Your marbles are lame, but I guess we can play.");
+const storeOwner = new Character({f0:store_owner_bmp}, 76, 16, delay=10000, fFrames=1, dialogue="Have a surprise marble! There are so many to collect!");
 
 const dojoRoom = new Room(dojoRoomTiles, 3, [morihei, squatter], dojoSong);
-const overworldTopRoom = new Room(overworldTopTiles, 3, [], gamblingSong);
+const overworldTopRoom = new Room(overworldTopTiles, 3, [storeOwner], gamblingSong);
 const overworldBottomRoom = new Room(overworldBottomTiles, 3, [], gamblingSong);
 
 const world = new World([[overworldTopRoom, dojoRoom], [overworldBottomRoom, null]], 0, 0);
