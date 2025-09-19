@@ -1746,6 +1746,7 @@ class Game {
     }
 
     displayTextBox(text) {
+        clearInterval(this.intervalCode);
         this.textOpen = true;
         this.text = text;
         this.textChars = 0;
