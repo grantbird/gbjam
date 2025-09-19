@@ -898,6 +898,8 @@ const TEXT_LINE_LENGTH = 20;
 const TEXT_LINES = 4;
 const POINTER_SPEED = 0.005;
 const MARBLE_CURSOR_SPEED = 0.1;
+const INVENTORY_WINDOW_WIDTH = 128;
+const INVENTORY_WINDOW_HEIGHT = 96;
 
 const MARBLE_TYPE_ALLEY = 0;
 const MARBLE_TYPE_SHOOTER = 1;
@@ -2431,11 +2433,14 @@ class Inventory {
         if (inputHandler.keyPressed.left) {
             this.currMarble = (this.currMarble - 1) % this.player.marbles.length;
         }
-        graphicsHandler.drawText(this.getCurrMarble().name, 0, 0);
-        graphicsHandler.drawText("Radius - " + this.getCurrMarble().radius, 0, 16);
-        graphicsHandler.drawText("Weight - " + this.getCurrMarble().mass, 0, 32);
-        graphicsHandler.drawText("Speed - " + this.getCurrMarble().speed, 0, 48);
-        graphicsHandler.drawText("Drag - " + this.getCurrMarble().drag, 0, 64);
+        let xCorner = (SCREEN_WIDTH - INVENTORY_WINDOW_WIDTH) / 2;
+        let yCorner = (SCREEN_HEIGHT - INVENTORY_WINDOW_HEIGHT) / 2;
+        graphicsHandler.fillRect(2, xCorner, yCorner, xCorner + INVENTORY_WINDOW_WIDTH, yCorner + INVENTORY_WINDOW_HEIGHT);
+        graphicsHandler.drawText(this.getCurrMarble().name, xCorner + 8, yCorner + 8);
+        graphicsHandler.drawText("Radius - " + this.getCurrMarble().radius, xCorner + 8, yCorner + 32);
+        graphicsHandler.drawText("Weight - " + this.getCurrMarble().mass, xCorner + 8, yCorner + 40);
+        graphicsHandler.drawText("Speed - " + this.getCurrMarble().speed, xCorner + 8, yCorner + 48);
+        graphicsHandler.drawText("Drag - " + this.getCurrMarble().drag, xCorner + 8, yCorner + 56);
     }
 }
 
