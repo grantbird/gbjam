@@ -544,6 +544,7 @@ const LETTER_SIZE = 8;
 const FRAMERATE_TYPICAL = 40;
 const PLAYER_BASE_FORCE = 3;
 const PLAYER_DRAG = 1;
+const MAX_PLAYER_SPEED = 10;
 const ANIM_DELAY = 167;
 const ROOM_CHANGE_DIST = 1;
 const TEXT_BOX_HEIGHT = 32;
@@ -2034,8 +2035,8 @@ class Player {
             if (Object.hasOwn(nextTileTouching, "onTouch")) {
                 nextTileTouching.onTouch();
             }
-            this.loc.x += this.velocity.x * deltaT / FRAMERATE_TYPICAL;
-            this.loc.y += this.velocity.y * deltaT / FRAMERATE_TYPICAL;
+            this.loc.x += Math.min(this.velocity.x * deltaT / FRAMERATE_TYPICAL, MAX_PLAYER_SPEED);
+            this.loc.y += Math.min(this.velocity.y * deltaT / FRAMERATE_TYPICAL, MAX_PLAYER_SPEED);
         }
         if (this.animType == "idle") {
             graphicsHandler.drawBitmap(this.frames[this.animType + this.animDir], Math.round(this.loc.x), Math.round(this.loc.y));
