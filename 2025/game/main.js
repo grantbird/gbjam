@@ -2424,7 +2424,7 @@ const storeBottomLeftTile = new Tile(store_bottom_left_bmp, true);
 const storeBottomMiddleTile = new Tile(store_bottom_middle_bmp, true);
 storeBottomMiddleTile.onTouch = () => {
     world.currentRoom = {x:1, y:0};
-    player.loc = {x:80, y:110};
+    player.loc = {x:64, y:110};
     audioHandler.playSong(world.getCurrRoom().music, loop=true);
 };
 const storeBottomRightTile = new Tile(store_bottom_right_bmp, true);
@@ -2432,6 +2432,12 @@ const storeTopLeftTile = new Tile(store_top_left_bmp, true);
 const storeTopMiddleTile = new Tile(store_top_middle_bmp, true);
 const storeTopRightTile = new Tile(store_top_right_bmp, true);
 const waterTile = new Tile(water_bmp, true);
+const dojoDoorTile = new Tile(tatamiTopTile, false);
+dojoDoorTile.onTouch = () => {
+    world.currentRoom = {x:0, y:0};
+    player.loc = {x:80, y:110};
+    audioHandler.playSong(world.getCurrRoom().music, loop=true);
+};
 
 const dojoRoomTiles = [
     [wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, columnTile, kakejikuTopLeftTile, kakejikuTopRightTile, columnTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile], 
@@ -2442,7 +2448,7 @@ const dojoRoomTiles = [
     [wallVerticalTile, tatamiBottomTile, tatamiTopTile, tatamiBottomTile, ringBottomLeftTile, ringBottomRightTile, tatamiBottomTile, tatamiTopTile, tatamiBottomTile, wallVerticalTile], 
     [wallVerticalTile, tatamiTopTile, tatamiBottomTile, tatamiLeftTile, tatamiRightTile, tatamiLeftTile, tatamiRightTile, tatamiBottomTile, tatamiTopTile, wallVerticalTile], 
     [wallVerticalTile, tatamiBottomTile, tatamiLeftTile, tatamiRightTile, tatamiLeftTile, tatamiRightTile, tatamiLeftTile, tatamiRightTile, tatamiBottomTile, wallVerticalTile], 
-    [cornerBottomLeftTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, cornerBottomRightTile]
+    [cornerBottomLeftTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, dojoDoorTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, cornerBottomRightTile]
 ];
 const overworldTopTiles = [
     [treeTile, treeTile, treeTile, treeTile, treeTile, treeTile, treeTile, treeTile, treeTile, treeTile], 
