@@ -2462,7 +2462,7 @@ const overworldTopTiles = [
     [treeTile, flowerTile, flowerTile, flowerTile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, treeTile], 
     [treeTile, flowerTile, flowerTile, flowerTile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, treeTile], 
     [cliffTopTile, cliffTopTile, grassSand1Tile, grassSand2Tile, grassSand1Tile, grassSand2Tile, grassSand1Tile, grassSand2Tile, cliffTopTile, cliffTopTile]
-]
+];
 const overworldBottomTiles = [
     [cliffBottomTile, cliffBottomTile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, cliffBottomTile, cliffBottomTile], 
     [cliffTopTile, sand1Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, rockTile],
@@ -2476,8 +2476,9 @@ const overworldBottomTiles = [
 ];
 
 const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.");
+const squatter = new Character({f0:squatter_bmp}, 48, 80, delay=10000, fFrames=1, dialogue="Your marbles are lame, but I guess we can play.");
 
-const dojoRoom = new Room(dojoRoomTiles, 3, [morihei], dojoSong);
+const dojoRoom = new Room(dojoRoomTiles, 3, [morihei, squatter], dojoSong);
 const overworldTopRoom = new Room(overworldTopTiles, 3, [], gamblingSong);
 const overworldBottomRoom = new Room(overworldBottomTiles, 3, [], gamblingSong);
 
