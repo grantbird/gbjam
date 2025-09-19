@@ -1656,6 +1656,7 @@ class MarbleArena {
         this.shooter_opp.loc.x = -SCREEN_WIDTH;
         this.shooter_opp.loc.y = -SCREEN_HEIGHT;
         this.currSequence = SEQUENCE_PLACE_SHOOTER;
+        this.turn = TURN_PLAYER;
         this.pointer = new MarblePointer(this.shooter_player, this);
         this.marbleAiHandler = new MarbleAiHandler(this.shooter_opp, this);
         this.game = null;
@@ -1720,9 +1721,14 @@ class MarbleArena {
 
         else if (this.currSequence == SEQUENCE_MARBLE_RESOLVE) {
             if (this.getTotalMarbleSpeed() < 0.00001) {
-                this.currSequence = SEQUENCE_PLAYER_TURN;
-                if (this.turn == TURN_OPPONENT) {
-                    this.marbleAiHandler.pickTargetAngle();
+                if (this.turn == TURN_PLAYER) {
+                    this.currSequence = SEQUENCE_AI_TURN;
+                    this.turn = TURN_OPPONENT;
+                }
+                else {
+                    this.currSequence = SEQUENCE_PLAYER_TURN;
+                    this.turn = TURN_PLAYER;
+                    this.marbleAiHandler.pickTargetAngle()
                 }
             }
         }
