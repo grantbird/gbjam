@@ -2294,6 +2294,31 @@ const tatamiLeftTile = new Tile(tatami_left_bmp, false);
 const tatamiRightTile = new Tile(tatami_right_bmp, false);
 const wallHorizontalTile = new Tile(wall_horizontal_bmp, true);
 const wallVerticalTile = new Tile(wall_vertical_bmp, true);
+const treeTile = new Tile(tree_bmp, true);
+const bottleTile = new Tile(bottle_bmp, false);
+const cliffBottomTile = new Tile(cliff_bottom_bmp, true);
+const cliffTopTile = new Tile(cliff_top_bmp, true);
+const flowerTile = new Tile(flower_bmp, false);
+const grass1Tile = new Tile(grass_1_bmp, false);
+const grass2Tile = new Tile(grass_2_bmp, false);
+const grassSand1Tile = new Tile(grass_sand_1_bmp, false);
+const grassSand2Tile = new Tile(grass_sand_2_bmp, false);
+const plankLeftTile = new Tile(plank_left_bmp, false);
+const plankRightTile = new Tile(plank_right_bmp, false);
+const rockTile = new Tile(rock_bmp, true);
+const sand1Tile = new Tile(sand_1_bmp, false);
+const sand2Tile = new Tile(sand_2_bmp, false);
+const shellTile = new Tile(shell_bmp, false);
+const shoreTile = new Tile(shore_bmp, false);
+const shoreCornerTile = new Tile(shore_corner_bmp, false);
+const shoreVerticalTile = new Tile(shore_vertical_bmp, false);
+const storeBottomLeftTile = new Tile(store_bottom_left_bmp, true);
+const storeBottomMiddleTile = new Tile(store_bottom_middle_bmp, true);
+const storeBottomRightTile = new Tile(store_bottom_right_bmp, true);
+const storeTopLeftTile = new Tile(store_top_left_bmp, true);
+const storeTopMiddleTile = new Tile(store_top_middle_bmp, true);
+const storeTopRightTile = new Tile(store_top_right_bmp, true);
+const waterTile = new Tile(water_bmp, true);
 
 const dojoRoomTiles = [
     [wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, columnTile, kakejikuTopLeftTile, kakejikuTopRightTile, columnTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile], 
@@ -2306,19 +2331,31 @@ const dojoRoomTiles = [
     [wallVerticalTile, tatamiBottomTile, tatamiLeftTile, tatamiRightTile, tatamiLeftTile, tatamiRightTile, tatamiLeftTile, tatamiRightTile, tatamiBottomTile, wallVerticalTile], 
     [cornerBottomLeftTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, cornerBottomRightTile]
 ];
+const overworldTopTiles = [
+    [treeTile, treeTile, treeTile, treeTile, treeTile, treeTile, treeTile, treeTile, treeTile, treeTile], 
+    [treeTile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, treeTile], 
+    [treeTile, grass2Tile, storeTopLeftTile, storeTopMiddleTile, storeTopRightTile, grass2Tile, grass1Tile, treeTile, treeTile, treeTile], 
+    [treeTile, grass1Tile, storeBottomLeftTile, storeBottomMiddleTile, storeBottomRightTile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, treeTile], 
+    [treeTile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, treeTile], 
+    [treeTile, flowerTile, flowerTile, flowerTile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, treeTile], 
+    [treeTile, flowerTile, flowerTile, flowerTile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, treeTile], 
+    [treeTile, flowerTile, flowerTile, flowerTile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, treeTile], 
+    [cliffTopTile, cliffTopTile, grassSand1Tile, grassSand2Tile, grassSand1Tile, grassSand2Tile, grassSand1Tile, grassSand2Tile, cliffTopTile, cliffTopTile]
+]
 
 const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.");
 
 const dojoRoom = new Room(dojoRoomTiles, bgColor=3, characters=[morihei], music=dojoSong);
+const overworldTopRoom = new Room(overworldTopTiles, bgColor=3, characters=[], music=gamblingSong);
 
-const world = new World([[dojoRoom]], 0, 0);
+const world = new World([[overworldTopRoom, dojoRoom]], 0, 0);
 
 const player = new Player({idleR:morihei_bmp, idleL:morihei_bmp, f0R:morihei_bmp, f1R:morihei_bmp, f2R:morihei_bmp, f3R:morihei_bmp, f0L:morihei_bmp, f1L:morihei_bmp, f2L:morihei_bmp, f3L:morihei_bmp}, 64, 64, world);
 
 const game = new Game(world, player);
 //game.startMarbleGame();
 
-audioHandler.playSong(dojoSong, loop=true);
+audioHandler.playSong(world.getCurrRoom().music, loop=true);
 
 var lastTime = 0;
 var deltaT = 0;
