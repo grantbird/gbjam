@@ -559,6 +559,7 @@ const TURN_PLAYER = 0;
 const TURN_OPPONENT = 1;
 const WINDOW_OVERWORLD = 0;
 const WINDOW_ARENA = 1;
+const WINDOW_INVENTORY = 2;
 const SEQUENCE_PLACE_SHOOTER = 0;
 const SEQUENCE_PLACE_ALLEYS = 1;
 const SEQUENCE_FLIP_COIN = 2;
@@ -2084,10 +2085,11 @@ class Inventory {
         if (inputHandler.keyPressed.left) {
             this.currMarble = (this.currMarble - 1) % this.player.marbles.length;
         }
-        this.player.game.drawText(this.getCurrMarble().name, 0, 0);
-        this.player.game.drawText("Weight: " + this.getCurrMarble().mass, 0, 16);
-        this.player.game.drawText("Speed: " + this.getCurrMarble().speed, 0, 32);
-        this.player.game.drawText("Drag: " + this.getCurrMarble().drag, 0, 48);
+        graphicsHandler.drawText(this.getCurrMarble().name, 0, 0);
+        graphicsHandler.drawText("Radius: " + this.getCurrMarble().radius, 0, 16);
+        graphicsHandler.drawText("Weight: " + this.getCurrMarble().mass, 0, 16);
+        graphicsHandler.drawText("Speed: " + this.getCurrMarble().speed, 0, 32);
+        graphicsHandler.drawText("Drag: " + this.getCurrMarble().drag, 0, 48);
     }
 }
 
@@ -2360,6 +2362,7 @@ class Game {
         this.overworld = overworld;
         this.overworld.game = this;
         this.player = player;
+        this.inventory = new Inventory(player);
         this.currWindow = WINDOW_OVERWORLD;
         this.arena = null;
         this.text = "";
@@ -2393,12 +2396,22 @@ class Game {
 
     update(deltaT) {
         if (this.currWindow == WINDOW_OVERWORLD) {
+            if (inputHandler.keyPressed.start && this.player.marbles.length > 0) {
+                this.currWindow = WINDOW_INVENTORY;
+            }
             this.overworld.update(deltaT);
             this.player.update(deltaT);
         }
 
         else if (this.currWindow == WINDOW_ARENA) {
             this.arena.update(deltaT);
+        }
+        
+        else if (this.currWindow == WINDOW_INVENTORY) {
+            if (inputHandler.keyPressed.b) {
+                this.currWindow = WINDOW_OVERWORLD;
+            }
+            this.inventory.update(deltaT);
         }
 
         if (this.textOpen) {
@@ -2529,6 +2542,7 @@ const player = new Player({
     f2L:gato_fl_walk_down_bmp, 
     f3L:gato_fl_walk_up_bmp
 }, 64, 64, world);
+player.marbles.push(new Marble(5));
 
 const game = new Game(world, player);
 
