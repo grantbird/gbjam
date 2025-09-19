@@ -2314,6 +2314,11 @@ const shoreCornerTile = new Tile(shore_corner_bmp, false);
 const shoreVerticalTile = new Tile(shore_vertical_bmp, false);
 const storeBottomLeftTile = new Tile(store_bottom_left_bmp, true);
 const storeBottomMiddleTile = new Tile(store_bottom_middle_bmp, true);
+storeBottomMiddleTile.onTouch = () => {
+    world.currentRoom = {x:1, y:0};
+    player.loc = {x:80, y:110};
+    audioHandler.playSong(world.getCurrRoom().music, loop=true);
+};
 const storeBottomRightTile = new Tile(store_bottom_right_bmp, true);
 const storeTopLeftTile = new Tile(store_top_left_bmp, true);
 const storeTopMiddleTile = new Tile(store_top_middle_bmp, true);
@@ -2345,15 +2350,14 @@ const overworldTopTiles = [
 
 const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.");
 
-const dojoRoom = new Room(dojoRoomTiles, bgColor=3, characters=[morihei], music=dojoSong);
-const overworldTopRoom = new Room(overworldTopTiles, bgColor=3, characters=[], music=gamblingSong);
+const dojoRoom = new Room(dojoRoomTiles, 3, [morihei], dojoSong);
+const overworldTopRoom = new Room(overworldTopTiles, 3, [], gamblingSong);
 
 const world = new World([[overworldTopRoom, dojoRoom]], 0, 0);
 
 const player = new Player({idleR:morihei_bmp, idleL:morihei_bmp, f0R:morihei_bmp, f1R:morihei_bmp, f2R:morihei_bmp, f3R:morihei_bmp, f0L:morihei_bmp, f1L:morihei_bmp, f2L:morihei_bmp, f3L:morihei_bmp}, 64, 64, world);
 
 const game = new Game(world, player);
-//game.startMarbleGame();
 
 audioHandler.playSong(world.getCurrRoom().music, loop=true);
 
