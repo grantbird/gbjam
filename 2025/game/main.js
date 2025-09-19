@@ -564,6 +564,7 @@ const SEQUENCE_FLIP_COIN = 2;
 const SEQUENCE_PLAYER_TURN = 3;
 const SEQUENCE_AI_TURN = 4;
 const SEQUENCE_MARBLE_RESOLVE = 5;
+const SEQUENCE_GAME_OVER = 6;
 
 /* SPRITES */
 
@@ -1681,6 +1682,15 @@ class MarbleArena {
         }
     }
 
+    allMarblesOut() {
+        for (let i = 0; i < this.alleys.length; i++) {
+            if (this.alleys[i].inBounds()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     update(deltaT) {
         graphicsHandler.fillScreen(1);
         graphicsHandler.drawCircle(2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, this.ring_radius);
@@ -1722,15 +1732,25 @@ class MarbleArena {
 
         else if (this.currSequence == SEQUENCE_MARBLE_RESOLVE) {
             if (this.getTotalMarbleSpeed() < 0.00001) {
-                if (this.turn == TURN_PLAYER) {
+                if (this.allMarblesOut()) {
+                    this.currSequence = SEQUENCE_GAME_OVER;
+                    this.game.displayTextBox("All the alleys have been knocked out.");
+                }
+                else if (this.turn == TURN_PLAYER) {
                     this.currSequence = SEQUENCE_AI_TURN;
                     this.turn = TURN_OPPONENT;
                 }
-                else {
+                else if (this.turn == TURN_OPPONENT) {
                     this.currSequence = SEQUENCE_PLAYER_TURN;
                     this.turn = TURN_PLAYER;
                     this.marbleAiHandler.pickTargetAngle()
                 }
+            }
+        }
+
+        else if (this.currSequence == SEQUENCE_GAME_OVER) {
+            if (inputHandler.keyPressed.b) {
+                this.game.startOverworld();
             }
         }
 
@@ -1771,6 +1791,11 @@ class Game {
         this.arena.game = this;
         this.currWindow = WINDOW_ARENA;
         this.displayTextBox("Place your shooter and press Start.");
+    }
+
+    startOverworld() {
+        this.currWindow = WINDOW_OVERWORLD;
+        audioHandler.playSong(this.overworld.getCurrRoom().music, loop=true);
     }
 
     update(deltaT) {
