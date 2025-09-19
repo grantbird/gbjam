@@ -1917,10 +1917,16 @@ class Character {
         this.room = null;
     }
     onInteract() {
-        this.room.world.game.displayTextBox(this.dialogue, () => {
-            this.room.world.game.startMarbleGame();
-            audioHandler.playSong(bossSong, loop=true);
-        });
+        if (this.room.world.game.player.marbles.length > 0) {
+            this.room.world.game.displayTextBox(this.dialogue, () => {
+                this.room.world.game.startMarbleGame();
+                audioHandler.playSong(bossSong, loop=true);
+            });
+        }
+        else {
+            this.room.world.game.displayTextBox("Everyone here plays marbles! You should get some at the store.");
+        }
+
         audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
     }
     update(deltaT) {
@@ -1938,6 +1944,7 @@ class Player {
         this.currFrame = 0;
         this.animType = "idle";
         this.animDir = "R";
+        this.marbles = [];
         setInterval(() => {this.currFrame = (this.currFrame + 1) % 4}, ANIM_DELAY);
     }
     isTouching(loc, w, h) {
