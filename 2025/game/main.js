@@ -1358,7 +1358,7 @@ class Character {
     }
     onInteract() {
         this.room.world.game.displayTextBox(this.dialogue);
-        audioHandler.playGliss(1000, 2000, 100, 3);
+        audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
     }
     update() {
         graphicsHandler.drawBitmap(this.frames[this.animType + this.currFrame], Math.round(this.loc.x), Math.round(this.loc.y));
