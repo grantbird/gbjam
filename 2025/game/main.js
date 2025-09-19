@@ -1915,6 +1915,7 @@ class Character {
         this.dialogue = dialogue;
         setInterval(() => {this.currFrame = (this.currFrame + 1) % fFrames}, delay);
         this.room = null;
+        this.marbles = [];
     }
     onInteract() {
         if (this.room.world.game.player.marbles.length > 0) {
@@ -2066,6 +2067,30 @@ class Room {
     onEnter() {}
 }
 
+class Inventory {
+    constructor(player) {
+        this.currMarble = 0;
+        this.player = player;
+    }
+
+    getCurrMarble() {
+        return this.player.marbles[this.currMarble];
+    }
+
+    update(deltaT) {
+        if (inputHandler.keyPressed.right) {
+            this.currMarble = (this.currMarble + 1) % this.player.marbles.length;
+        }
+        if (inputHandler.keyPressed.left) {
+            this.currMarble = (this.currMarble - 1) % this.player.marbles.length;
+        }
+        this.player.game.drawText(this.getCurrMarble().name, 0, 0);
+        this.player.game.drawText("Weight: " + this.getCurrMarble().mass, 0, 16);
+        this.player.game.drawText("Speed: " + this.getCurrMarble().speed, 0, 32);
+        this.player.game.drawText("Drag: " + this.getCurrMarble().drag, 0, 48);
+    }
+}
+
 class MarblePointer {
     constructor(parent, arena, length=10) {
         this.parent = parent;
@@ -2132,11 +2157,12 @@ class MarbleAiHandler {
 }
 
 class Marble {
-    constructor(radius, drag=0.001, mass=1, speed=0.03) {
+    constructor(radius, drag=0.001, mass=1, speed=0.03, name="Boring Marble") {
         this.radius = radius;
         this.drag = drag;
         this.mass = mass;
         this.speed = speed;
+        this.name = name;
         this.loc = {x: SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2};
         this.velocity = {x: 0, y: 0};
         this.type = MARBLE_TYPE_ALLEY;
