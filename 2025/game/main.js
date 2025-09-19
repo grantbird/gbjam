@@ -1315,6 +1315,13 @@ function getDistance(p1, p2) {
 class World {
     constructor(rooms, startX, startY) {
         this.rooms = rooms;
+        for (let i = 0; i < this.rooms.length; i++) {
+            for (let j = 0; j < this.rooms[i].length; j++) {
+                if (this.rooms[i][j] !== null) {
+                    this.rooms[i][j].world = this;
+                }
+            }
+        }
         this.currentRoom = {x:startX, y:startY};
         this.game = null;
     }
@@ -1340,17 +1347,17 @@ class World {
 }
 
 class Character {
-    constructor(frames, startX, startY, world, delay=ANIM_DELAY, fFrames=4, dialogue="") {
-        this.world = world;
+    constructor(frames, startX, startY, delay=ANIM_DELAY, fFrames=4, dialogue="") {
         this.frames = frames;
         this.loc = {x: startX, y: startY};
         this.currFrame = 0;
         this.animType = "f";
         this.dialogue = dialogue;
         setInterval(() => {this.currFrame = (this.currFrame + 1) % fFrames}, delay);
+        this.room = null;
     }
     onInteract() {
-        this.world.displayTextBox(this.dialogue);
+        this.room.world.game.displayTextBox(this.dialogue);
         audioHandler.playGliss(1000, 2000, 100, 3);
     }
     update() {
@@ -1372,7 +1379,7 @@ class Player {
     }
     isTouching(loc, w, h) {
         return (this.loc.x < loc.x + w && this.loc.x + TILE_SIZE > loc.x && 
-                this.loc.y < loc.y + h && this.loc.y + TILE_SIZE > loc.x);
+                this.loc.y < loc.y + h && this.loc.y + TILE_SIZE > loc.y);
     }
     update() {
         if (!this.world.textOpen && !this.world.titleOpen && !this.world.endOpen) {
@@ -1479,7 +1486,11 @@ class Room {
         this.tiles = tiles;
         this.bgColor = bgColor;
         this.characters = characters;
+        for (let i = 0; i < this.characters.length; i++) {
+            this.characters[i].room = this;
+        }
         this.music = music
+        this.world = null;
     }
 
     onEnter() {}
@@ -1765,7 +1776,7 @@ class Game {
             for (let i = 0; i < TEXT_LINES; i++) {
                 graphicsHandler.drawText(currText.slice(i * TEXT_LINE_LENGTH, (i + 1) * TEXT_LINE_LENGTH), 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT + i * 8);
             }
-            if (inputHandler.keyPressed.a || inputHandler.keyPressed.b) {
+            if ((inputHandler.keyPressed.a || inputHandler.keyPressed.b) && this.textChars != 0) {
                 this.textOpen = false;
                 clearInterval(this.intervalCode);
             }
@@ -1807,7 +1818,9 @@ const dojoRoomTiles = [
     [cornerBottomLeftTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, cornerBottomRightTile]
 ];
 
-const dojoRoom = new Room(dojoRoomTiles, music=dojoSong);
+const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.");
+
+const dojoRoom = new Room(dojoRoomTiles, music=dojoSong, characters=[morihei], music=dojoSong);
 
 const world = new World([[dojoRoom]], 0, 0);
 
