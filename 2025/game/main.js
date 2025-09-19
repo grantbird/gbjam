@@ -1628,6 +1628,7 @@ class Marble {
                         shooter.velocity.y = alpha * tempVelY + beta * this.velocity.y;
                         this.velocity.x = beta * tempVelX + alpha * this.velocity.x;
                         this.velocity.y = beta * tempVelY + alpha * this.velocity.y;
+                        audioHandler.playNote(1661.2, 100, 3, SQUARE_ENV, 0.1);
                     }
                 }
             }
