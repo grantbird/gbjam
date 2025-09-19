@@ -541,6 +541,7 @@ const LETTER_SIZE = 8;
 
 /* GAME CONSTANTS */
 
+const FRAMERATE_TYPICAL = 40;
 const PLAYER_BASE_FORCE = 3;
 const PLAYER_DRAG = 1;
 const ANIM_DELAY = 167;
@@ -1889,7 +1890,7 @@ class World {
         return this.rooms[this.currentRoom.y][this.currentRoom.x];
     }
 
-    update() {
+    update(deltaT) {
         graphicsHandler.fillScreen(this.getCurrRoom().bgColor);
 
         for (let i = 0; i < SCREEN_HEIGHT / TILE_SIZE; i++) {
@@ -1900,7 +1901,7 @@ class World {
         }
 
         for (let i = 0; i < this.getCurrRoom().characters.length; i++) {
-            this.getCurrRoom().characters[i].update();
+            this.getCurrRoom().characters[i].update(deltaT);
         }
     }
 }
@@ -1922,7 +1923,7 @@ class Character {
         });
         audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
     }
-    update() {
+    update(deltaT) {
         graphicsHandler.drawBitmap(this.frames[this.animType + this.currFrame], Math.round(this.loc.x), Math.round(this.loc.y));
     }
 }
@@ -1943,7 +1944,7 @@ class Player {
         return (this.loc.x < loc.x + w && this.loc.x + TILE_SIZE > loc.x && 
                 this.loc.y < loc.y + h && this.loc.y + TILE_SIZE > loc.y);
     }
-    update() {
+    update(deltaT) {
         if (!this.world.textOpen && !this.world.titleOpen && !this.world.endOpen) {
             if (inputHandler.keyPressed.up && !inputHandler.keyPressed.down) {
                 this.force.y = -PLAYER_BASE_FORCE;
@@ -1979,8 +1980,8 @@ class Player {
             if (this.force.x == 0 && this.force.y == 0) {
                 this.animType = "idle";
             }
-            this.velocity.x += this.force.x - this.velocity.x * PLAYER_DRAG;
-            this.velocity.y += this.force.y - this.velocity.y * PLAYER_DRAG;
+            this.velocity.x += (this.force.x - this.velocity.x * PLAYER_DRAG) * deltaT / FRAMERATE_TYPICAL;
+            this.velocity.y += (this.force.y - this.velocity.y * PLAYER_DRAG) * deltaT / FRAMERATE_TYPICAL;
             let oldMusic = this.world.getCurrRoom().music;
             if (this.loc.y + this.velocity.y < ROOM_CHANGE_DIST) {
                 this.world.currentRoom.y -= 1;
@@ -2024,8 +2025,8 @@ class Player {
             if (Object.hasOwn(nextTileTouching, "onTouch")) {
                 nextTileTouching.onTouch();
             }
-            this.loc.x += this.velocity.x;
-            this.loc.y += this.velocity.y;
+            this.loc.x += this.velocity.x * deltaT / FRAMERATE_TYPICAL;
+            this.loc.y += this.velocity.y * deltaT / FRAMERATE_TYPICAL;
         }
         if (this.animType == "idle") {
             graphicsHandler.drawBitmap(this.frames[this.animType + this.animDir], Math.round(this.loc.x), Math.round(this.loc.y));
@@ -2358,8 +2359,8 @@ class Game {
 
     update(deltaT) {
         if (this.currWindow == WINDOW_OVERWORLD) {
-            this.overworld.update();
-            this.player.update();
+            this.overworld.update(deltaT);
+            this.player.update(deltaT);
         }
 
         else if (this.currWindow == WINDOW_ARENA) {
