@@ -34,16 +34,16 @@ def get_javascript(file_path):
     else:
         name = "bitmap"
     arr = to_palette(file_path)
-    result = "const " + name + "_bmp = ["
+    result = "const " + name + "_bmp = [" + "\n"
 
     for row in arr:
-        result += "["
+        result += "    ["
         for color in row:
             result += str(color) + ", "
         result = result[:-2]
-        result += "], "
+        result += "], \n"
     result = result[:-2]
-    result += "];"
+    result += "\n];"
 
     return result
 
