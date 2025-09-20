@@ -900,6 +900,7 @@ const POINTER_SPEED = 0.005;
 const MARBLE_CURSOR_SPEED = 0.1;
 const INVENTORY_WINDOW_WIDTH = 128;
 const INVENTORY_WINDOW_HEIGHT = 96;
+const PRICE_MARBLE = 10;
 
 const MARBLE_TYPE_ALLEY = 0;
 const MARBLE_TYPE_SHOOTER = 1;
@@ -2421,6 +2422,7 @@ class Player {
         this.animType = "idle";
         this.animDir = "R";
         this.marbles = [];
+        this.money = 50;
         setInterval(() => {this.currFrame = (this.currFrame + 1) % 4}, ANIM_DELAY);
     }
     isTouching(loc, w, h) {
@@ -2549,7 +2551,6 @@ class Inventory {
     }
 
     getCurrMarble() {
-        console.log(this.currMarble);
         return this.player.marbles[this.currMarble];
     }
 
@@ -3017,10 +3018,20 @@ const overworldBottomTiles = [
 
 const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.");
 const squatter = new Character({f0:squatter_bmp}, 48, 80, delay=10000, fFrames=1, dialogue="Your marbles are lame, but I guess we can play.");
-const storeOwner = new Character({f0:store_owner_bmp}, 76, 16, delay=10000, fFrames=1, dialogue="Have a surprise marble! There are so many to collect!");
+const storeOwner = new Character({f0:store_owner_bmp}, 76, 16, delay=10000, fFrames=1, dialogue="");
 storeOwner.onInteract = () => {
-    game.displayTextBox(this.dialogue, () => {
-        game.giveMarble(new Marble(5));
+    game.displayTextBox("Buy a soda and you'll get one surprise marble.", () => {
+        //game.giveMarble(new Marble(5));
+        game.displayTextBox("It might be cool, or it might be a dud!", () => {
+            if (player.money < PRICE_MARBLE) {
+                game.displayTextBox("It's 10Y for one soda. You don't have enough money.", () => {});
+            } else {
+                player.money -= PRICE_MARBLE;
+                game.displayTextBox("Here's your soda. I hope you get a good one!", () => {
+                    game.giveMarble(new Marble(Math.floor(Math.random() * 4 + 4)));
+                });
+            }
+        })
     });
 };
 
