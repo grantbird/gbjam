@@ -3695,17 +3695,7 @@ const squatter = new Character({f0:squatter_bmp}, 48, 80, delay=10000, fFrames=1
 const storeOwner = new Character({f0:store_owner_bmp}, 112, 16, delay=10000, fFrames=1, dialogue="");
 storeOwner.onInteract = () => {
     game.displayTextBox("Buy a soda and you'll get one surprise marble.", () => {
-        //game.giveMarble(new Marble(5));
-        game.displayTextBox("It might be cool, or it might be a dud!", () => {
-            if (player.money < PRICE_MARBLE) {
-                game.displayTextBox("It's 10Y for one soda. You don't have enough money.", () => {});
-            } else {
-                player.money -= PRICE_MARBLE;
-                game.displayTextBox("Here's your soda. I hope you get a good one!", () => {
-                    game.giveMarble(new Marble(Math.floor(Math.random() * 4 + 4)));
-                });
-            }
-        })
+        game.displayTextBox("It might be cool, or it might be a dud!", () => {})
     });
 };
 const ramuneBottle = new Character({
@@ -3719,6 +3709,16 @@ const ramuneBottle = new Character({
     f7:ramune_fr_8_bmp, 
     f8:ramune_fr_9_bmp, 
     f9:ramune_fr_10_bmp}, 64, 16, delay=167, fFrames=10, dialogue="...");
+ramuneBottle.onInteract = () => {
+    if (player.money < PRICE_MARBLE) {
+        game.displayTextBox("It's 10Y for one soda. You don't have enough money.", () => {});
+    } else {
+        player.money -= PRICE_MARBLE;
+        game.displayTextBox("Here's your soda. I hope you get a good one!", () => {
+            game.giveMarble(new Marble(Math.floor(Math.random() * 4 + 4)));
+        });
+    }
+};
 
 const dojoRoom = new Room(dojoRoomTiles, 3, [morihei, squatter], dojoSong);
 const overworldTopRoom = new Room(overworldTopTiles, 3, [], gamblingSong);
