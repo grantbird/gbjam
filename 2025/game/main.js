@@ -1908,6 +1908,114 @@ const store_owner_bmp = [
     [0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 2, 2, 0, 0, 0, 0], 
     [0, 0, 0, 0, 2, 2, 2, 0, 0, 2, 2, 2, 0, 0, 0, 0],
 ];
+const dojo_bottom_left_bmp = [
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 3, 3, 3, 3, 3, 4, 4], 
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 3, 3, 2, 2, 3, 4, 4], 
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 3, 2, 3, 3, 3, 4, 4], 
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 3, 3, 2, 2, 3, 4, 4], 
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 3, 3, 2, 2, 3, 4, 4], 
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 3, 2, 2, 3, 3, 4, 4], 
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 3, 2, 2, 2, 3, 4, 4], 
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 3, 3, 3, 3, 3, 4, 4], 
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4], 
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+    [0, 0, 0, 0, 0, 1, 2, 3, 1, 2, 2, 2, 1, 2, 2, 3], 
+    [0, 0, 0, 0, 0, 1, 1, 2, 1, 1, 1, 1, 3, 1, 1, 2], 
+    [0, 0, 0, 0, 1, 3, 1, 1, 2, 2, 2, 1, 2, 2, 1, 1], 
+    [0, 0, 0, 0, 1, 2, 3, 3, 1, 2, 1, 2, 1, 1, 2, 3], 
+    [0, 0, 0, 1, 1, 1, 2, 2, 2, 1, 1, 2, 2, 1, 1, 2], 
+    [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
+const dojo_bottom_middle_bmp = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+    [1, 2, 2, 1, 4, 4, 4, 1, 1, 4, 4, 4, 1, 2, 2, 1], 
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+    [1, 2, 4, 2, 4, 2, 4, 1, 1, 2, 4, 2, 4, 2, 4, 1], 
+    [1, 2, 4, 2, 4, 2, 4, 1, 1, 2, 4, 2, 4, 2, 4, 1], 
+    [1, 2, 4, 2, 4, 2, 4, 1, 1, 2, 4, 2, 4, 2, 4, 1], 
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+    [1, 2, 4, 2, 4, 2, 4, 1, 1, 2, 4, 2, 4, 2, 4, 1], 
+    [1, 2, 4, 2, 4, 2, 4, 1, 1, 2, 4, 2, 4, 2, 4, 1], 
+    [1, 2, 4, 2, 4, 2, 4, 1, 1, 2, 4, 2, 4, 2, 4, 1], 
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+    [1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 1], 
+    [1, 4, 4, 4, 4, 2, 4, 1, 1, 4, 2, 4, 4, 4, 4, 1], 
+    [1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 1], 
+    [1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 1], 
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
+const dojo_bottom_right_bmp = [
+    [4, 4, 3, 3, 3, 3, 3, 4, 4, 1, 0, 0, 0, 0, 0, 0], 
+    [4, 4, 3, 3, 2, 2, 3, 4, 4, 1, 0, 0, 0, 0, 0, 0], 
+    [4, 4, 3, 2, 3, 3, 3, 4, 4, 1, 0, 0, 0, 0, 0, 0], 
+    [4, 4, 3, 3, 2, 2, 3, 4, 4, 1, 0, 0, 0, 0, 0, 0], 
+    [4, 4, 3, 3, 2, 2, 3, 4, 4, 1, 0, 0, 0, 0, 0, 0], 
+    [4, 4, 3, 2, 2, 3, 3, 4, 4, 1, 0, 0, 0, 0, 0, 0], 
+    [4, 4, 3, 2, 2, 2, 3, 4, 4, 1, 0, 0, 0, 0, 0, 0], 
+    [4, 4, 3, 3, 3, 3, 3, 4, 4, 1, 0, 0, 0, 0, 0, 0], 
+    [4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 0, 0, 0, 0, 0, 0], 
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0], 
+    [2, 2, 3, 1, 2, 2, 3, 1, 2, 3, 1, 0, 0, 0, 0, 0], 
+    [1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 0, 0, 0, 0, 0], 
+    [1, 1, 2, 2, 1, 2, 3, 3, 1, 1, 3, 1, 0, 0, 0, 0], 
+    [2, 3, 1, 1, 2, 1, 2, 1, 2, 2, 3, 1, 0, 0, 0, 0], 
+    [1, 2, 1, 2, 2, 2, 1, 1, 1, 2, 2, 3, 1, 0, 0, 0], 
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+];
+const dojo_top_left_bmp = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2], 
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2], 
+    [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2], 
+    [0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 2, 2, 2, 1, 1, 1], 
+    [0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 2, 2, 2], 
+    [0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1], 
+    [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+    [0, 0, 1, 4, 1, 0, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1], 
+    [0, 0, 1, 1, 1, 0, 1, 4, 3, 3, 4, 3, 3, 4, 3, 3], 
+    [0, 0, 0, 0, 0, 0, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+];
+const dojo_top_middle_bmp = [
+    [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 1, 0, 0, 0, 0, 1, 2, 2, 1, 0, 0, 0, 0, 1, 0], 
+    [0, 1, 1, 0, 0, 1, 2, 4, 4, 2, 1, 0, 0, 1, 1, 0], 
+    [0, 0, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 0, 0], 
+    [0, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0], 
+    [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1], 
+    [2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 2, 2, 2, 2], 
+    [1, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 1], 
+    [2, 1, 1, 1, 2, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2], 
+    [2, 2, 2, 1, 1, 2, 4, 2, 2, 4, 2, 1, 1, 2, 2, 2], 
+    [2, 1, 1, 2, 4, 2, 4, 2, 2, 4, 2, 4, 2, 1, 1, 2], 
+    [1, 4, 4, 2, 4, 2, 4, 2, 2, 4, 2, 4, 2, 4, 4, 1], 
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+    [3, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 3], 
+    [4, 3, 3, 4, 3, 3, 4, 3, 3, 4, 3, 3, 4, 3, 3, 4], 
+    [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+];
+const dojo_top_right_bmp = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], 
+    [2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0], 
+    [1, 1, 1, 2, 2, 2, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0], 
+    [2, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0], 
+    [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0], 
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], 
+    [1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 0, 1, 4, 1, 0, 0], 
+    [3, 3, 4, 3, 3, 4, 3, 3, 4, 1, 0, 1, 1, 1, 0, 0], 
+    [4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 0, 0, 0, 0, 0, 0],
+];
 
 class AudioHandler {
     constructor(ctx) {
@@ -2858,9 +2966,20 @@ const waterTile = new Tile(water_bmp, true);
 const dojoDoorTile = new Tile(tatamiTopTile, false);
 dojoDoorTile.onTouch = () => {
     world.currentRoom = {x:0, y:0};
-    player.loc = {x:80, y:110};
+    player.loc = {x:112, y:100};
     audioHandler.playSong(world.getCurrRoom().music, loop=true);
 };
+const dojoBottomLeftTile = new Tile(dojo_bottom_left_bmp, true);
+const dojoBottomMiddleTile = new Tile(dojo_bottom_middle_bmp, true);
+dojoBottomMiddleTile.onTouch = () => {
+    world.currentRoom = {x:1, y:0};
+    player.loc = {x:64, y:110};
+    audioHandler.playSong(world.getCurrRoom().music, loop=true);
+};
+const dojoBottomRightTile = new Tile(dojo_bottom_right_bmp, true);
+const dojoTopLeftTile = new Tile(dojo_top_left_bmp, true);
+const dojoTopMiddleTile = new Tile(dojo_top_middle_bmp, true);
+const dojoTopRightTile = new Tile(dojo_top_right_bmp, true);
 
 const dojoRoomTiles = [
     [wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, columnTile, kakejikuTopLeftTile, kakejikuTopRightTile, columnTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile], 
@@ -2879,8 +2998,8 @@ const overworldTopTiles = [
     [treeTile, grass2Tile, storeTopLeftTile, storeTopMiddleTile, storeTopRightTile, grass2Tile, grass1Tile, treeTile, treeTile, treeTile], 
     [treeTile, grass1Tile, storeBottomLeftTile, storeBottomMiddleTile, storeBottomRightTile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, treeTile], 
     [treeTile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, treeTile], 
-    [treeTile, flowerTile, flowerTile, flowerTile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, treeTile], 
-    [treeTile, flowerTile, flowerTile, flowerTile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, treeTile], 
+    [treeTile, flowerTile, flowerTile, flowerTile, grass2Tile, grass1Tile, dojoTopLeftTile, dojoTopMiddleTile, dojoTopRightTile, treeTile], 
+    [treeTile, flowerTile, flowerTile, flowerTile, grass1Tile, grass2Tile, dojoBottomLeftTile, dojoBottomMiddleTile, dojoBottomRightTile, treeTile], 
     [treeTile, flowerTile, flowerTile, flowerTile, grass2Tile, grass1Tile, grass2Tile, grass1Tile, grass2Tile, treeTile], 
     [cliffTopTile, cliffTopTile, grassSand1Tile, grassSand2Tile, grassSand1Tile, grassSand2Tile, grassSand1Tile, grassSand2Tile, cliffTopTile, cliffTopTile]
 ];
@@ -2907,7 +3026,7 @@ storeOwner.onInteract = () => {
 
 const dojoRoom = new Room(dojoRoomTiles, 3, [morihei, squatter], dojoSong);
 const overworldTopRoom = new Room(overworldTopTiles, 3, [storeOwner], gamblingSong);
-const overworldBottomRoom = new Room(overworldBottomTiles, 3, [], gamblingSong);
+const overworldBottomRoom = new Room(overworldBottomTiles, 4, [], gamblingSong);
 
 const world = new World([[overworldTopRoom, dojoRoom], [overworldBottomRoom, null]], 0, 0);
 
