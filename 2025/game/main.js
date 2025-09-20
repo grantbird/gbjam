@@ -2441,6 +2441,7 @@ class Inventory {
     }
 
     getCurrMarble() {
+        console.log(this.currMarble);
         return this.player.marbles[this.currMarble];
     }
 
@@ -2449,7 +2450,7 @@ class Inventory {
             this.currMarble = (this.currMarble + 1) % this.player.marbles.length;
         }
         if (inputHandler.keyPressed.left) {
-            this.currMarble = (this.currMarble - 1) % this.player.marbles.length;
+            this.currMarble = (this.currMarble - 1 + this.player.marbles.length) % this.player.marbles.length;
         }
         let xCorner = (SCREEN_WIDTH - INVENTORY_WINDOW_WIDTH) / 2;
         let yCorner = (SCREEN_HEIGHT - INVENTORY_WINDOW_HEIGHT) / 2;
@@ -2922,7 +2923,6 @@ const player = new Player({
     f2L:gato_fl_walk_down_bmp, 
     f3L:gato_fl_walk_up_bmp
 }, 64, 64, world);
-player.marbles.push(new Marble(5));
 
 const game = new Game(world, player);
 
