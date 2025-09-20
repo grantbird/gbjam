@@ -889,7 +889,8 @@ const LETTER_SIZE = 8;
 const FRAMERATE_TYPICAL = 40;
 const PLAYER_BASE_FORCE = 3;
 const PLAYER_DRAG = 1;
-const MAX_PLAYER_SPEED = 10;
+const MAX_PLAYER_SPEED = 6;
+const MAX_PLAYER_ACCEL = 6;
 const ANIM_DELAY = 167;
 const ROOM_CHANGE_DIST = 1;
 const TEXT_BOX_HEIGHT = 32;
@@ -3087,8 +3088,9 @@ class Player {
             if (this.force.x == 0 && this.force.y == 0) {
                 this.animType = "idle";
             }
-            this.velocity.x += (this.force.x - this.velocity.x * PLAYER_DRAG) * deltaT / FRAMERATE_TYPICAL;
-            this.velocity.y += (this.force.y - this.velocity.y * PLAYER_DRAG) * deltaT / FRAMERATE_TYPICAL;
+            this.velocity.x += Math.max(Math.min((this.force.x - this.velocity.x * PLAYER_DRAG) * deltaT / FRAMERATE_TYPICAL, MAX_PLAYER_ACCEL), -MAX_PLAYER_ACCEL);
+            this.velocity.y += Math.max(Math.min((this.force.y - this.velocity.y * PLAYER_DRAG) * deltaT / FRAMERATE_TYPICAL, MAX_PLAYER_ACCEL), -MAX_PLAYER_ACCEL);
+            console.log("y velocity: " + this.velocity.y);
             let oldMusic = this.world.getCurrRoom().music;
             if (this.loc.y + this.velocity.y < ROOM_CHANGE_DIST) {
                 this.world.currentRoom.y -= 1;
@@ -3132,8 +3134,11 @@ class Player {
             if (Object.hasOwn(nextTileTouching, "onTouch")) {
                 nextTileTouching.onTouch();
             }
-            this.loc.x += Math.min(this.velocity.x * deltaT / FRAMERATE_TYPICAL, MAX_PLAYER_SPEED);
-            this.loc.y += Math.min(this.velocity.y * deltaT / FRAMERATE_TYPICAL, MAX_PLAYER_SPEED);
+            console.log("FPS: " + (1000 / deltaT));
+            console.log("y delta: " + Math.max(Math.min(this.velocity.y * deltaT / FRAMERATE_TYPICAL, MAX_PLAYER_SPEED), -MAX_PLAYER_SPEED));
+            this.loc.x += Math.max(Math.min(this.velocity.x * deltaT / FRAMERATE_TYPICAL, MAX_PLAYER_SPEED), -MAX_PLAYER_SPEED);
+            this.loc.y += Math.max(Math.min(this.velocity.y * deltaT / FRAMERATE_TYPICAL, MAX_PLAYER_SPEED), -MAX_PLAYER_SPEED);
+            console.log("y pos: " + this.loc.y);
         }
         if (this.animType == "idle") {
             graphicsHandler.drawBitmap(this.frames[this.animType + this.animDir], Math.round(this.loc.x), Math.round(this.loc.y));
