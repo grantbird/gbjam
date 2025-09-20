@@ -2736,6 +2736,8 @@ class MarbleArena {
         this.pointer = new MarblePointer(this.shooter_player, this);
         this.marbleAiHandler = new MarbleAiHandler(this.shooter_opp, this);
         this.game = null;
+        this.inPlayAlleys = 0;
+        this.playerScore = 0;
     }
 
     getTotalMarbleSpeed() {
@@ -2765,7 +2767,18 @@ class MarbleArena {
         return true;
     }
 
+    alleysInPlay() {
+        let result = 0;
+        for (let i = 0; i < this.alleys.length; i++) {
+            if (this.alleys[i].inBounds()) {
+                result += 1;
+            }
+        }
+        return result;
+    }
+
     update(deltaT) {
+        console.log(this.playerScore);
         graphicsHandler.fillScreen(1);
         graphicsHandler.drawCircle(2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, this.ring_radius);
 
@@ -2800,12 +2813,16 @@ class MarbleArena {
 
         else if (this.currSequence == SEQUENCE_PLACE_ALLEYS) {
             if (inputHandler.keyPressed.start) {
+                this.inPlayAlleys = this.alleysInPlay();
                 this.currSequence = SEQUENCE_PLAYER_TURN;
             }
         }
 
         else if (this.currSequence == SEQUENCE_MARBLE_RESOLVE) {
             if (this.getTotalMarbleSpeed() < 0.00001) {
+                if (this.turn == TURN_PLAYER) {
+                    this.playerScore += (this.inPlayAlleys - this.alleysInPlay());
+                }
                 if (this.allMarblesOut()) {
                     this.currSequence = SEQUENCE_GAME_OVER;
                     this.game.displayTextBox("All the alleys have been knocked out.");
@@ -2815,6 +2832,7 @@ class MarbleArena {
                     this.turn = TURN_OPPONENT;
                 }
                 else if (this.turn == TURN_OPPONENT) {
+                    this.inPlayAlleys = this.alleysInPlay();
                     this.currSequence = SEQUENCE_PLAYER_TURN;
                     this.turn = TURN_PLAYER;
                     this.marbleAiHandler.pickTargetAngle()
