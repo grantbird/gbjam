@@ -893,7 +893,7 @@ const MAX_PLAYER_SPEED = 10;
 const ANIM_DELAY = 167;
 const ROOM_CHANGE_DIST = 1;
 const TEXT_BOX_HEIGHT = 32;
-const TEXT_DELAY = 100;
+const TEXT_DELAY = 50;
 const TEXT_LINE_LENGTH = 20;
 const TEXT_LINES = 4;
 const POINTER_SPEED = 0.005;
@@ -2778,7 +2778,6 @@ class MarbleArena {
     }
 
     update(deltaT) {
-        console.log(this.playerScore);
         graphicsHandler.fillScreen(1);
         graphicsHandler.drawCircle(2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, this.ring_radius);
 
