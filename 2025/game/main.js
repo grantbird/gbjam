@@ -2843,6 +2843,14 @@ class MarbleArena {
         else if (this.currSequence == SEQUENCE_GAME_OVER) {
             if (inputHandler.keyPressed.b) {
                 this.game.startOverworld();
+                if (this.playerScore >= 2) {
+                    this.game.displayTextBox("You won! Your opponent gave you a random marble as a reward.", () => {
+                        this.game.giveMarble(new Marble(5));
+                    });
+                }
+                else {
+                    this.game.displayTextBox("Your opponent knocked out more marbles than you. Try again.");
+                }
             }
         }
 
