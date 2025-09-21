@@ -902,6 +902,7 @@ const MARBLE_CURSOR_SPEED = 0.1;
 const INVENTORY_WINDOW_WIDTH = 128;
 const INVENTORY_WINDOW_HEIGHT = 96;
 const PRICE_MARBLE = 10;
+const MARBLE_TYPES = 5;
 
 const MARBLE_TYPE_ALLEY = 0;
 const MARBLE_TYPE_SHOOTER = 1;
@@ -910,6 +911,7 @@ const TURN_OPPONENT = 1;
 const WINDOW_OVERWORLD = 0;
 const WINDOW_ARENA = 1;
 const WINDOW_INVENTORY = 2;
+const WINDOW_STATS = 3;
 const SEQUENCE_PLACE_SHOOTER = 0;
 const SEQUENCE_PLACE_ALLEYS = 1;
 const SEQUENCE_FLIP_COIN = 2;
@@ -3592,6 +3594,20 @@ class Inventory {
     }
 }
 
+class PlayerStatScreen {
+    constructor(player) {
+        this.player = player;
+    }
+
+    update(deltaT) {
+        graphicsHandler.drawBitmap(frame_bmp, 0, 0);
+        graphicsHandler.drawText("Player Stats", 16, 16);
+        graphicsHandler.drawText("Money: " + this.player.money, 16, 32);
+        graphicsHandler.drawText("Marbles: " + this.player.marbles.length, 16, 40);
+        graphicsHandler.drawText("Collection: " + this.player.marbles.length + "-" + MARBLE_TYPES, 16, 48);
+    }
+}
+
 class MarblePointer {
     constructor(parent, arena, length=10) {
         this.parent = parent;
@@ -3888,6 +3904,7 @@ class Game {
         this.overworld.game = this;
         this.player = player;
         this.inventory = new Inventory(player);
+        this.playerStats = new PlayerStatScreen(player);
         this.currWindow = WINDOW_OVERWORLD;
         this.arena = null;
         this.text = "";
@@ -3929,6 +3946,9 @@ class Game {
             if (inputHandler.keyPressed.start && this.player.marbles.length > 0) {
                 this.currWindow = WINDOW_INVENTORY;
             }
+            if (inputHandler.keyPressed.select) {
+                this.currWindow = WINDOW_STATS;
+            }
             this.overworld.update(deltaT);
             this.player.update(deltaT);
         }
@@ -3942,6 +3962,13 @@ class Game {
                 this.currWindow = WINDOW_OVERWORLD;
             }
             this.inventory.update(deltaT);
+        }
+
+        else if (this.currWindow == WINDOW_STATS) {
+            if (inputHandler.keyPressed.b) {
+                this.currWindow = WINDOW_OVERWORLD;
+            }
+            this.playerStats.update(deltaT);
         }
 
         if (this.textOpen) {
