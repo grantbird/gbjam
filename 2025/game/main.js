@@ -3417,7 +3417,7 @@ class Character {
     onInteract() {
         if (this.room.world.game.player.marbles.length > 0) {
             this.room.world.game.displayTextBox(this.dialogue, () => {
-                this.room.world.game.startMarbleGame();
+                this.room.world.game.startMarbleGame(this);
                 audioHandler.playSong(bossSong, loop=true);
             });
         }
@@ -3460,6 +3460,10 @@ class Player {
             }
         }
         return uniqueNames.length;
+    }
+
+    getShooter() {
+        return this.marbles[0];
     }
 
     update(deltaT) {
@@ -3935,8 +3939,8 @@ class Game {
         this.onTextFinish = onTextFinish;
     }
 
-    startMarbleGame() {
-        this.arena = new MarbleArena(createBoxkun(), createBoxkun());
+    startMarbleGame(opponent) {
+        this.arena = new MarbleArena(this.player.getShooter(), opponent.marbles[0]);
         this.arena.game = this;
         this.currWindow = WINDOW_ARENA;
         this.displayTextBox("Place your shooter and press Start.");
@@ -4143,8 +4147,8 @@ const storeTiles = [
     [cornerBottomLeftTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, storeDoorTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, cornerBottomRightTile]
 ];
 
-const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.", []);
-const squatter = new Character({f0:squatter_bmp}, 48, 80, delay=10000, fFrames=1, dialogue="Your marbles are lame, but I guess we can play.");
+const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.", [createDraggie()]);
+const squatter = new Character({f0:squatter_bmp}, 48, 80, delay=10000, fFrames=1, dialogue="Your marbles are lame, but I guess we can play.", [createBumboozer()]);
 const storeOwner = new Character({f0:store_owner_bmp}, 112, 16, delay=10000, fFrames=1, dialogue="");
 storeOwner.onInteract = () => {
     game.displayTextBox("Buy a soda and you'll get one surprise marble.", () => {
