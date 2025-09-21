@@ -3404,7 +3404,7 @@ class World {
 }
 
 class Character {
-    constructor(frames, startX, startY, delay=ANIM_DELAY, fFrames=4, dialogue="") {
+    constructor(frames, startX, startY, delay=ANIM_DELAY, fFrames=4, dialogue="", marbles=[]) {
         this.frames = frames;
         this.loc = {x: startX, y: startY};
         this.currFrame = 0;
@@ -3412,7 +3412,7 @@ class Character {
         this.dialogue = dialogue;
         setInterval(() => {this.currFrame = (this.currFrame + 1) % fFrames}, delay);
         this.room = null;
-        this.marbles = [];
+        this.marbles = marbles;
     }
     onInteract() {
         if (this.room.world.game.player.marbles.length > 0) {
@@ -3446,10 +3446,22 @@ class Player {
         this.money = 50;
         setInterval(() => {this.currFrame = (this.currFrame + 1) % 4}, ANIM_DELAY);
     }
+
     isTouching(loc, w, h) {
         return (this.loc.x < loc.x + w && this.loc.x + TILE_SIZE > loc.x && 
                 this.loc.y < loc.y + h && this.loc.y + TILE_SIZE > loc.y);
     }
+
+    getCollection() {
+        let uniqueNames = [];
+        for (let i = 0; i < this.marbles.length; i++) {
+            if (!uniqueNames.includes(this.marbles[i].name)) {
+                uniqueNames.push(this.marbles[i].name);
+            }
+        }
+        return uniqueNames.length;
+    }
+
     update(deltaT) {
         if (!this.world.textOpen && !this.world.titleOpen && !this.world.endOpen) {
             if (inputHandler.keyPressed.up && !inputHandler.keyPressed.down) {
@@ -3604,7 +3616,7 @@ class PlayerStatScreen {
         graphicsHandler.drawText("Player Stats", 16, 16);
         graphicsHandler.drawText("Money: " + this.player.money, 16, 32);
         graphicsHandler.drawText("Marbles: " + this.player.marbles.length, 16, 40);
-        graphicsHandler.drawText("Collection: " + this.player.marbles.length + "-" + MARBLE_TYPES, 16, 48);
+        graphicsHandler.drawText("Collection: " + this.player.getCollection() + "-" + MARBLE_TYPES, 16, 48);
     }
 }
 
@@ -3835,7 +3847,7 @@ class MarbleArena {
                 this.currSequence = SEQUENCE_PLACE_ALLEYS;
                 this.shooter_opp.setStartPos();
                 this.game.displayTextBox("Placing alleys...");
-                this.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
+                this.setAlleys([createBoxkun(), createBoxkun(), createBoxkun()]);
             }
         }
 
@@ -3881,7 +3893,7 @@ class MarbleArena {
                 this.game.startOverworld();
                 if (this.playerScore >= 2) {
                     this.game.displayTextBox("You won! Your opponent gave you a random marble as a reward.", () => {
-                        this.game.giveMarble(new Marble(5));
+                        this.game.giveMarble(createBoxkun());
                     });
                 }
                 else {
@@ -3924,8 +3936,7 @@ class Game {
     }
 
     startMarbleGame() {
-        this.arena = new MarbleArena(new Marble(10), new Marble(10));
-        //this.arena.setAlleys([new Marble(6), new Marble(7), new Marble(8)]);
+        this.arena = new MarbleArena(createBoxkun(), createBoxkun());
         this.arena.game = this;
         this.currWindow = WINDOW_ARENA;
         this.displayTextBox("Place your shooter and press Start.");
@@ -3984,6 +3995,22 @@ class Game {
             }
         }
     }
+}
+
+function createBoxkun() {
+    return new Marble(8, drag=0.001, mass=1, speed=0.03, name="Boxkun", img=boxkun_bmp);
+}
+function createPeeweeBall() {
+    return new Marble(5, drag=0.001, mass=0.7, speed=0.055, name="Peewee Ball", img=boxkun_bmp);
+}
+function createFiamma() {
+    return new Marble(8, drag=0.001, mass=1, speed=0.04, name="Fiamma", img=boxkun_bmp);
+}
+function createBumboozer() {
+    return new Marble(12, drag=0.0015, mass=2, speed=0.03, name="Bumboozer", img=boxkun_bmp);
+}
+function createDraggie() {
+    return new Marble(10, drag=0.0008, mass=1.2, speed=0.04, name="Draggie", img=boxkun_bmp);
 }
 
 const columnTile = new Tile(column_bmp, true);
@@ -4116,7 +4143,7 @@ const storeTiles = [
     [cornerBottomLeftTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, storeDoorTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, wallHorizontalTile, cornerBottomRightTile]
 ];
 
-const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.");
+const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, dialogue="Today you defeat the person who was you yesterday.", []);
 const squatter = new Character({f0:squatter_bmp}, 48, 80, delay=10000, fFrames=1, dialogue="Your marbles are lame, but I guess we can play.");
 const storeOwner = new Character({f0:store_owner_bmp}, 112, 16, delay=10000, fFrames=1, dialogue="");
 storeOwner.onInteract = () => {
@@ -4141,7 +4168,7 @@ ramuneBottle.onInteract = () => {
     } else {
         player.money -= PRICE_MARBLE;
         game.displayTextBox("Here's your soda. I hope you get a good one!", () => {
-            game.giveMarble(new Marble(Math.floor(Math.random() * 4 + 4)));
+            game.giveMarble(createBoxkun());
         });
     }
 };
