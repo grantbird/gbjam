@@ -4321,11 +4321,20 @@ class Game {
             for (let i = 0; i < TEXT_LINES; i++) {
                 graphicsHandler.drawText(currText.slice(i * TEXT_LINE_LENGTH, (i + 1) * TEXT_LINE_LENGTH), 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT + i * 8);
             }
-            if ((inputHandler.keyPressed.a || inputHandler.keyPressed.b) && this.textChars != 0) {
-                this.textOpen = false;
-                clearInterval(this.intervalCode);
-                this.onTextFinish();
-            }
+            inputHandler.onKeyPress.a = () => {
+                if (this.textChars != 0) {
+                    this.textOpen = false;
+                    clearInterval(this.intervalCode);
+                    this.onTextFinish();
+                }
+            };
+            inputHandler.onKeyPress.b = () => {
+                if (this.textChars != 0) {
+                    this.textOpen = false;
+                    clearInterval(this.intervalCode);
+                    this.onTextFinish();
+                }
+            };
         }
     }
 }
