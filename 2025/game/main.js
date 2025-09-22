@@ -979,6 +979,7 @@ const INVENTORY_WINDOW_HEIGHT = 96;
 const PRICE_MARBLE = 10;
 const MARBLE_TYPES = 5;
 const REWARD_MONEY = 20;
+const LINE_ENDINGS = [" ", ".", ",", "!", "?"];
 
 const MARBLE_TYPE_ALLEY = 0;
 const MARBLE_TYPE_SHOOTER = 1;
@@ -4319,8 +4320,19 @@ class Game {
         if (this.textOpen) {
             graphicsHandler.fillRect(4, 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
             let currText = this.text.substring(0, this.textChars);
+            let spliceStart = 0;
             for (let i = 0; i < TEXT_LINES; i++) {
-                graphicsHandler.drawText(currText.slice(i * TEXT_LINE_LENGTH, (i + 1) * TEXT_LINE_LENGTH), 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT + i * 8);
+                if (currText[spliceStart] == " ") {
+                    spliceStart++;
+                }
+                let spliceEnd = spliceStart + TEXT_LINE_LENGTH;
+                if (!LINE_ENDINGS.includes(currText[spliceEnd - 1]) && currText[spliceEnd] != " " && spliceEnd < currText.length) {
+                    while (currText[spliceEnd] != " ") {
+                        spliceEnd--;
+                    }
+                }
+                graphicsHandler.drawText(currText.slice(spliceStart, spliceEnd), 0, SCREEN_HEIGHT - TEXT_BOX_HEIGHT + i * 8);
+                spliceStart = spliceEnd;
             }
             inputHandler.onKeyPress.a = () => {
                 if (this.textChars != 0) {
