@@ -3766,7 +3766,7 @@ class Player {
     }
 
     update(deltaT) {
-        if (!this.world.textOpen && !this.world.titleOpen && !this.world.endOpen) {
+        if (!this.world.textOpen) {
             if (inputHandler.keyPressed.up && !inputHandler.keyPressed.down) {
                 this.force.y = -PLAYER_BASE_FORCE;
                 this.animType = "f";
@@ -3791,13 +3791,13 @@ class Player {
             else {
                 this.force.x = 0;
             }
-            if (inputHandler.keyPressed.a) {
+            inputHandler.onKeyPress.a = () => {
                 for (let i = 0; i < this.world.getCurrRoom().characters.length; i++) {
                     if (this.isTouching(this.world.getCurrRoom().characters[i].loc, TILE_SIZE, TILE_SIZE)) {
                         this.world.getCurrRoom().characters[i].onInteract();
                     }
                 }
-            }
+            };
             if (this.force.x == 0 && this.force.y == 0) {
                 this.animType = "idle";
             }
@@ -3901,15 +3901,6 @@ class Inventory {
     }
 
     update(deltaT) {
-        //if (inputHandler.keyPressed.right) {
-        //    this.currMarble = (this.currMarble + 1) % this.player.marbles.length;
-        //}
-        //if (inputHandler.keyPressed.left) {
-        //    this.currMarble = (this.currMarble - 1 + this.player.marbles.length) % this.player.marbles.length;
-        //}
-        //if (inputHandler.keyPressed.a) {
-        //    this.setShooter();
-        //}
         inputHandler.onKeyPress.a = () => {
             this.setShooter();
         };
