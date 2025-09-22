@@ -3186,6 +3186,60 @@ const title_screen_fr0_bmp = [
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4], 
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
 ];
+const fisherCat_bmp = [
+    [0, 0, 3, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0], 
+    [0, 0, 1, 1, 1, 1, 3, 2, 3, 2, 3, 2, 3, 1, 1, 1], 
+    [0, 0, 0, 1, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 1], 
+    [1, 0, 0, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1], 
+    [0, 1, 1, 1, 3, 3, 1, 3, 3, 3, 3, 3, 1, 3, 3, 1], 
+    [0, 3, 0, 0, 1, 1, 3, 3, 3, 1, 3, 3, 3, 1, 1, 0], 
+    [0, 3, 1, 1, 0, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1], 
+    [0, 4, 0, 1, 1, 1, 1, 2, 3, 2, 3, 1, 1, 0, 0, 0], 
+    [0, 4, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0], 
+    [0, 4, 0, 0, 0, 0, 1, 2, 3, 1, 1, 2, 1, 0, 0, 1], 
+    [0, 4, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0], 
+    [0, 4, 0, 0, 1, 0, 0, 0, 0, 1, 1, 2, 1, 0, 0, 0], 
+    [0, 4, 0, 2, 2, 0, 0, 0, 0, 1, 0, 1, 2, 1, 0, 0], 
+    [0, 4, 0, 2, 2, 0, 0, 0, 2, 2, 0, 0, 1, 1, 0, 0], 
+    [0, 4, 2, 2, 2, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0], 
+    [0, 4, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0],
+];
+const kid_bmp = [
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 1, 1, 2, 2, 3, 2, 2, 1, 1, 0, 0, 0, 0, 0], 
+    [0, 0, 1, 2, 2, 3, 3, 3, 2, 2, 1, 0, 0, 0, 0, 1], 
+    [0, 0, 1, 1, 2, 3, 3, 3, 3, 2, 1, 1, 0, 0, 1, 0], 
+    [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], 
+    [0, 1, 1, 4, 3, 4, 4, 4, 4, 3, 1, 1, 0, 0, 0, 0], 
+    [1, 1, 1, 4, 1, 4, 4, 2, 4, 1, 4, 1, 1, 1, 0, 0], 
+    [0, 0, 1, 4, 4, 4, 3, 4, 3, 4, 4, 4, 1, 0, 0, 0], 
+    [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 4, 1, 4, 1, 4, 1, 4, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 4, 1, 1, 1, 4, 1, 1, 1, 4, 0, 2, 0, 0], 
+    [0, 0, 4, 1, 0, 1, 1, 1, 1, 1, 0, 1, 2, 3, 2, 0], 
+    [0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 2, 0, 0], 
+    [0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 0, 0],
+];
+const sunbather_bmp = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0], 
+    [0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0], 
+    [0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0], 
+    [0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0], 
+    [0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0], 
+    [0, 0, 2, 2, 4, 4, 4, 2, 2, 2, 4, 4, 4, 2, 0, 0], 
+    [0, 0, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 0, 0], 
+    [0, 0, 0, 2, 2, 2, 2, 4, 4, 4, 2, 2, 2, 0, 0, 0], 
+    [0, 2, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 0], 
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], 
+    [0, 2, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 0], 
+    [0, 0, 0, 0, 0, 4, 1, 4, 1, 4, 1, 4, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 1, 4, 1, 0, 1, 4, 1, 0, 0, 0, 0], 
+    [0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 2, 2, 0, 0, 0, 0], 
+    [0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0],
+];
 
 class AudioHandler {
     constructor(ctx) {
@@ -4313,7 +4367,7 @@ storeOwner.onInteract = () => {
     audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
     game.displayTextBox("Buy a soda and you'll get one surprise marble.", () => {
         audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
-        game.displayTextBox("It might be cool, or it might be a dud!", () => {})
+        game.displayTextBox("It might be cool, or it might be a dud!", () => {});
     });
 };
 const ramuneBottle = new Character({
@@ -4339,11 +4393,19 @@ ramuneBottle.onInteract = () => {
         });
     }
 };
+const fisherCat = new Character({f0:fisherCat_bmp}, 112, 112, delay=10000, fFrames=1, dialogue="I need a break from fishing.", [createBumboozer()]);
+const beachSquatter = new Character({f0:squatter_bmp}, 16, 16, delay=10000, fFrames=1, dialogue="I found a marble in the sand! Wanna play?", [createFiamma()]);
+const sunbather = new Character({f0:sunbather_bmp}, 48, 64, delay=10000, fFrames=1, dialogue="");
+sunbather.onInteract = () => {
+    audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
+    game.displayTextBox("Now that I have all 5 marbles, I can relax...", () => {});
+};
+const kid = new Character({f0:kid_bmp}, 32, 32, delay=10000, fFrames=1, dialogue="Ooh, I wonder which one I'll get! Please not Boxkun...", [createPeeweeBall()]);
 
 const dojoRoom = new Room(dojoRoomTiles, 3, [morihei, squatter], dojoSong);
 const overworldTopRoom = new Room(overworldTopTiles, 3, [], gamblingSong);
-const overworldBottomRoom = new Room(overworldBottomTiles, 4, [], gamblingSong, {1:"#2E4057", 2:"#66A182", 3:"#CAFFB9", 4:"#AEF78E"});
-const storeRoom = new Room(storeTiles, 4, [storeOwner, ramuneBottle], gamblingSong);
+const overworldBottomRoom = new Room(overworldBottomTiles, 4, [fisherCat, beachSquatter, sunbather], gamblingSong, {1:"#2E4057", 2:"#66A182", 3:"#CAFFB9", 4:"#AEF78E"});
+const storeRoom = new Room(storeTiles, 4, [storeOwner, ramuneBottle, kid], gamblingSong);
 
 const world = new World([[overworldTopRoom, dojoRoom], [overworldBottomRoom, storeRoom]], 0, 0);
 
