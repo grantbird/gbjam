@@ -521,7 +521,7 @@ const bossSong = {
 /* INPUT CONSTANTS */
 
 const KEYS = ["up", "down", "left", "right", "a", "b", "start", "select"];
-const DEFAULT_KEYS = ["w", "s", "a", "d", "x", "z", "Enter", "Shift"];
+const DEFAULT_KEYS = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "x", "z", "Enter", "Shift"];
 
 /* GRAPHICS CONSTANTS */
 
