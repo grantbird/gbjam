@@ -4279,6 +4279,7 @@ const storeBottomMiddleTile = new Tile(store_bottom_middle_bmp, true);
 storeBottomMiddleTile.onTouch = () => {
     world.currentRoom = {x:1, y:1};
     player.loc = {x:64, y:110};
+    world.getCurrRoom().onEnter();
     audioHandler.playSong(world.getCurrRoom().music, loop=true);
 };
 const storeBottomRightTile = new Tile(store_bottom_right_bmp, true);
@@ -4290,6 +4291,7 @@ const dojoDoorTile = new Tile(tatami_top_bmp, false);
 dojoDoorTile.onTouch = () => {
     world.currentRoom = {x:0, y:0};
     player.loc = {x:112, y:102};
+    world.getCurrRoom().onEnter();
     audioHandler.playSong(world.getCurrRoom().music, loop=true);
 };
 const dojoBottomLeftTile = new Tile(dojo_bottom_left_bmp, true);
@@ -4297,6 +4299,7 @@ const dojoBottomMiddleTile = new Tile(dojo_bottom_middle_bmp, true);
 dojoBottomMiddleTile.onTouch = () => {
     world.currentRoom = {x:1, y:0};
     player.loc = {x:64, y:110};
+    world.getCurrRoom().onEnter();
     audioHandler.playSong(world.getCurrRoom().music, loop=true);
 };
 const dojoBottomRightTile = new Tile(dojo_bottom_right_bmp, true);
@@ -4317,6 +4320,7 @@ const storeDoorTile = new Tile(store_tile_bmp, false);
 storeDoorTile.onTouch = () => {
     world.currentRoom = {x:0, y:0};
     player.loc = {x:48, y:54};
+    world.getCurrRoom().onEnter();
     audioHandler.playSong(world.getCurrRoom().music, loop=true);
 };
 
@@ -4409,7 +4413,7 @@ const kid = new Character({f0:kid_bmp}, 32, 32, delay=10000, fFrames=1, dialogue
 
 const dojoRoom = new Room(dojoRoomTiles, 3, [morihei, squatter], dojoSong);
 const overworldTopRoom = new Room(overworldTopTiles, 3, [], gamblingSong);
-const overworldBottomRoom = new Room(overworldBottomTiles, 4, [fisherCat, beachSquatter, sunbather], gamblingSong, {1:"#2E4057", 2:"#66A182", 3:"#CAFFB9", 4:"#AEF78E"});
+const overworldBottomRoom = new Room(overworldBottomTiles, 4, [fisherCat, beachSquatter, sunbather], gamblingSong);
 const storeRoom = new Room(storeTiles, 4, [storeOwner, ramuneBottle, kid], gamblingSong);
 
 const world = new World([[overworldTopRoom, dojoRoom], [overworldBottomRoom, storeRoom]], 0, 0);
