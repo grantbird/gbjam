@@ -4221,7 +4221,23 @@ class MarbleArena {
                 if (this.playerScore >= 2) {
                     this.game.displayTextBox("You won! Your opponent gave you a marble as a reward.", () => {
                         this.game.player.money += REWARD_MONEY;
-                        this.game.giveMarble(this.shooter_opp);
+                        switch (this.shooter_opp.name) {
+                            case "Boxkun":
+                                this.game.giveMarble(createBoxkun());
+                                break;
+                            case "PeeweeBall":
+                                this.game.giveMarble(createPeeweeBall());
+                                break;
+                            case "Fiamma":
+                                this.game.giveMarble(createFiamma());
+                                break;
+                            case "Bumboozer":
+                                this.game.giveMarble(createBumboozer());
+                                break;
+                            case "Draggie":
+                                this.game.giveMarble(createDraggie());
+                                break;
+                        }
                     });
                 }
                 else {
@@ -4356,7 +4372,7 @@ function createBoxkun() {
     return new Marble(8, drag=0.001, mass=1, speed=0.03, name="Boxkun", img=boxkun_bmp);
 }
 function createPeeweeBall() {
-    return new Marble(5, drag=0.001, mass=0.7, speed=0.055, name="Peewee Ball", img=peeweebell_bmp);
+    return new Marble(5, drag=0.001, mass=0.7, speed=0.055, name="PeeweeBall", img=peeweebell_bmp);
 }
 function createFiamma() {
     return new Marble(8, drag=0.001, mass=1, speed=0.04, name="Fiamma", img=fiamma_bmp);
