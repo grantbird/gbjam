@@ -3436,11 +3436,19 @@ class InputHandler {
         this.keySelectButtons = {};
         this.keyMap = {};
         this.currSelecting = "";
+        this.onKeyPress = {}
 
+        this.initializeOnPress();
         this.initializeButtons();
         this.initializeMap();
         this.initializePressed();
         this.initializeListeners(canvas);
+    }
+
+    initializeOnPress() {
+        for (let i = 0; i < KEYS.length; i++) {
+            this.onKeyPress[KEYS[i]] = () => {};
+        }
     }
 
     initializeButtons() {
@@ -3474,27 +3482,35 @@ class InputHandler {
             else {
                 switch (event.key) {
                     case this.keyMap["up"]:
+                        this.onKeyPress.up();
                         this.keyPressed["up"] = true;
                         break;
                     case this.keyMap["down"]:
+                        this.onKeyPress.down();
                         this.keyPressed["down"] = true;
                         break;
                     case this.keyMap["left"]:
+                        this.onKeyPress.left();
                         this.keyPressed["left"] = true;
                         break;
                     case this.keyMap["right"]:
+                        this.onKeyPress.right();
                         this.keyPressed["right"] = true;
                         break;
                     case this.keyMap["a"]:
+                        this.onKeyPress.a();
                         this.keyPressed["a"] = true;
                         break;
                     case this.keyMap["b"]:
+                        this.onKeyPress.b();
                         this.keyPressed["b"] = true;
                         break;
                     case this.keyMap["start"]:
+                        this.onKeyPress.start();
                         this.keyPressed["start"] = true;
                         break;
                     case this.keyMap["select"]:
+                        this.onKeyPress.select();
                         this.keyPressed["select"] = true;
                         break;
                     default:
