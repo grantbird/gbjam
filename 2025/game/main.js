@@ -4267,6 +4267,7 @@ const sand1Tile = new Tile(sand_1_bmp, false);
 const sand2Tile = new Tile(sand_2_bmp, false);
 const shellTile = new Tile(shell_bmp, false);
 const shoreTile = new Tile(shore_bmp, false);
+const shoreSolidTile = new Tile(shore_bmp, true);
 const shoreCornerTile = new Tile(shore_corner_bmp, false);
 const shoreVerticalTile = new Tile(shore_vertical_bmp, false);
 const storeBottomLeftTile = new Tile(store_bottom_left_bmp, true);
@@ -4344,7 +4345,7 @@ const overworldBottomTiles = [
     [waterTile, shoreVerticalTile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, rockTile], 
     [waterTile, shoreVerticalTile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, sand1Tile, rockTile], 
     [waterTile, shoreVerticalTile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, sand2Tile, rockTile], 
-    [waterTile, shoreCornerTile, shoreTile, shoreTile, shoreTile, shoreTile, shoreTile, plankLeftTile, plankRightTile, shoreTile], 
+    [waterTile, shoreCornerTile, shoreTile, shoreTile, shoreTile, shoreTile, shoreTile, plankLeftTile, plankRightTile, shoreSolidTile], 
     [waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, plankLeftTile, plankRightTile, waterTile], 
     [waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile, waterTile]
 ];
