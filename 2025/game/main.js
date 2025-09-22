@@ -4024,7 +4024,7 @@ class Marble {
 
     inBounds() {
         let arenaCenter = {x: SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2};
-        return getDistance(this.loc, arenaCenter) <= this.arena.ring_radius + this.radius;
+        return getDistance(this.loc, arenaCenter) <= this.arena.ring_radius + this.radius - 2;
     }
 
     isTouching(other) {
@@ -4375,13 +4375,13 @@ function createPeeweeBall() {
     return new Marble(5, drag=0.001, mass=0.7, speed=0.055, name="PeeweeBall", img=peeweebell_bmp);
 }
 function createFiamma() {
-    return new Marble(8, drag=0.001, mass=1, speed=0.04, name="Fiamma", img=fiamma_bmp);
+    return new Marble(8, drag=0.0009, mass=1, speed=0.04, name="Fiamma", img=fiamma_bmp);
 }
 function createBumboozer() {
-    return new Marble(12, drag=0.0015, mass=2, speed=0.03, name="Bumboozer", img=bumboozer_bmp);
+    return new Marble(12, drag=0.001, mass=1.5, speed=0.04, name="Bumboozer", img=bumboozer_bmp);
 }
 function createDraggie() {
-    return new Marble(10, drag=0.0008, mass=1.2, speed=0.04, name="Draggie", img=draggie_bmp);
+    return new Marble(10, drag=0.0008, mass=1.2, speed=0.05, name="Draggie", img=draggie_bmp);
 }
 
 const columnTile = new Tile(column_bmp, true);
