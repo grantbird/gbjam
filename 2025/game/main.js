@@ -903,6 +903,7 @@ const INVENTORY_WINDOW_WIDTH = 128;
 const INVENTORY_WINDOW_HEIGHT = 96;
 const PRICE_MARBLE = 10;
 const MARBLE_TYPES = 5;
+const REWARD_MONEY = 20;
 
 const MARBLE_TYPE_ALLEY = 0;
 const MARBLE_TYPE_SHOOTER = 1;
@@ -3772,7 +3773,7 @@ class Marble {
 
 class MarbleArena {
     constructor(shooter_player, shooter_opp) {
-        this.ring_radius = 64
+        this.ring_radius = 64;
         this.alleys = [];
         this.shooter_player = shooter_player;
         this.shooter_player.type = MARBLE_TYPE_SHOOTER;
@@ -3896,8 +3897,9 @@ class MarbleArena {
             if (inputHandler.keyPressed.b) {
                 this.game.startOverworld();
                 if (this.playerScore >= 2) {
-                    this.game.displayTextBox("You won! Your opponent gave you a random marble as a reward.", () => {
-                        this.game.giveMarble(createBoxkun());
+                    this.game.displayTextBox("You won! Your opponent gave you a marble as a reward.", () => {
+                        this.game.player.money += REWARD_MONEY;
+                        this.game.giveMarble(this.shooter_opp);
                     });
                 }
                 else {
@@ -4005,16 +4007,16 @@ function createBoxkun() {
     return new Marble(8, drag=0.001, mass=1, speed=0.03, name="Boxkun", img=boxkun_bmp);
 }
 function createPeeweeBall() {
-    return new Marble(5, drag=0.001, mass=0.7, speed=0.055, name="Peewee Ball", img=boxkun_bmp);
+    return new Marble(5, drag=0.001, mass=0.7, speed=0.055, name="Peewee Ball", img=peeweebell_bmp);
 }
 function createFiamma() {
-    return new Marble(8, drag=0.001, mass=1, speed=0.04, name="Fiamma", img=boxkun_bmp);
+    return new Marble(8, drag=0.001, mass=1, speed=0.04, name="Fiamma", img=fiamma_bmp);
 }
 function createBumboozer() {
-    return new Marble(12, drag=0.0015, mass=2, speed=0.03, name="Bumboozer", img=boxkun_bmp);
+    return new Marble(12, drag=0.0015, mass=2, speed=0.03, name="Bumboozer", img=bumboozer_bmp);
 }
 function createDraggie() {
-    return new Marble(10, drag=0.0008, mass=1.2, speed=0.04, name="Draggie", img=boxkun_bmp);
+    return new Marble(10, drag=0.0008, mass=1.2, speed=0.04, name="Draggie", img=draggie_bmp);
 }
 
 const columnTile = new Tile(column_bmp, true);
