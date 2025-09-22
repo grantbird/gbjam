@@ -3568,7 +3568,7 @@ class Tile {
 }
 
 class Room {
-    constructor(tiles, bgColor=3, characters=[], music=dojoSong) {
+    constructor(tiles, bgColor=3, characters=[], music=dojoSong, palette={1:"#7D4F50", 2:"#CC8B86", 3:"#D1BE9C", 4:"#F9EAE1"}) {
         this.tiles = tiles;
         this.bgColor = bgColor;
         this.characters = characters;
@@ -3576,6 +3576,7 @@ class Room {
             this.characters[i].room = this;
         }
         this.music = music
+        this.palette = palette;
         this.world = null;
     }
 
