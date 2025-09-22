@@ -3740,7 +3740,13 @@ class Player {
     }
 
     getShooter() {
-        return this.marbles[0];
+        let shooterIndex = 0;
+        for (let i = 0; i < this.marbles.length; i++) {
+            if (this.marbles[i].type == MARBLE_TYPE_SHOOTER) {
+                shooterIndex = i;
+            }
+        }
+        return this.marbles[shooterIndex];
     }
 
     update(deltaT) {
