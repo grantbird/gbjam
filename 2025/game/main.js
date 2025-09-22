@@ -3912,10 +3912,11 @@ class Inventory {
         };
         graphicsHandler.drawBitmap(frame_bmp, 0, 0);
         graphicsHandler.drawText(this.getCurrMarble().name, 16, 16);
+        graphicsHandler.drawText((this.currMarble + 1) + "-" + this.player.marbles.length, SCREEN_WIDTH - 52, 16);
         if (this.getCurrMarble().type == MARBLE_TYPE_SHOOTER) {
-            graphicsHandler.drawText("Use? Y", SCREEN_WIDTH - 64, 16);
+            graphicsHandler.drawText("Use?Y", SCREEN_WIDTH - 52, 24);
         } else {
-            graphicsHandler.drawText("Use? N", SCREEN_WIDTH - 64, 16);
+            graphicsHandler.drawText("Use?N", SCREEN_WIDTH - 52, 24);
         }
         if (this.getCurrMarble().img !== null) {
             graphicsHandler.drawBitmap(this.getCurrMarble().img, 48, 32);
