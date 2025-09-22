@@ -3877,6 +3877,13 @@ class Inventory {
         return this.player.marbles[this.currMarble];
     }
 
+    setShooter() {
+        for (let i = 0; i < this.player.marbles.length; i++) {
+            this.player.marbles[i].type = MARBLE_TYPE_ALLEY;
+        }
+        this.getCurrMarble().type = MARBLE_TYPE_SHOOTER;
+    }
+
     update(deltaT) {
         if (inputHandler.keyPressed.right) {
             this.currMarble = (this.currMarble + 1) % this.player.marbles.length;
