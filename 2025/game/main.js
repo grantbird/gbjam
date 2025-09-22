@@ -4310,7 +4310,9 @@ const morihei = new Character({f0:morihei_bmp}, 64, 32, delay=10000, fFrames=1, 
 const squatter = new Character({f0:squatter_bmp}, 48, 80, delay=10000, fFrames=1, dialogue="Your marbles are lame, but I guess we can play.", [createBumboozer()]);
 const storeOwner = new Character({f0:store_owner_bmp}, 112, 16, delay=10000, fFrames=1, dialogue="");
 storeOwner.onInteract = () => {
+    audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
     game.displayTextBox("Buy a soda and you'll get one surprise marble.", () => {
+        audioHandler.playGliss(1000, 2000, 100, 3, 0.1);
         game.displayTextBox("It might be cool, or it might be a dud!", () => {})
     });
 };
@@ -4327,8 +4329,10 @@ const ramuneBottle = new Character({
     f9:ramune_fr_10_bmp}, 64, 16, delay=167, fFrames=10, dialogue="...");
 ramuneBottle.onInteract = () => {
     if (player.money < PRICE_MARBLE) {
+        audioHandler.playNote(61.735, 500, 3, SQUARE_ENV, 0.1);
         game.displayTextBox("It's 10Y for one soda. You don't have enough money.", () => {});
     } else {
+        audioHandler.playNote(1396.9, 1000, 3, STRING_ENV, 0.2);
         player.money -= PRICE_MARBLE;
         game.displayTextBox("Here's your soda. I hope you get a good one!", () => {
             game.giveMarble(createBoxkun());
