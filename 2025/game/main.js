@@ -518,6 +518,81 @@ const bossSong = {
     },
 };
 
+const overworldSong = {
+    tempo:156,
+    divisionsPerBeat:1,
+    length:48,
+    env1:STRING_ENV,
+    env2:STRING_ENV,
+    envNoise:PIANO_ENV,
+    notes:{
+        channel1:{
+            0:{pitch:"A5", duration:1},
+            1:{pitch:"G5", duration:1},
+            2:{pitch:"A5", duration:1},
+            3:{pitch:"C6", duration:1},
+            4:{pitch:"Bb5", duration:1},
+            5:{pitch:"F5", duration:1},
+            6:{pitch:"E5", duration:5},
+            12:{pitch:"A5", duration:1},
+            13:{pitch:"G5", duration:1},
+            14:{pitch:"A5", duration:1},
+            15:{pitch:"C6", duration:1},
+            16:{pitch:"Bb5", duration:1},
+            17:{pitch:"F5", duration:1},
+            18:{pitch:"A5", duration:3},
+            21:{pitch:"G5", duration:1},
+            24:{pitch:"F5", duration:1},
+            25:{pitch:"E5", duration:1},
+            26:{pitch:"F5", duration:1},
+            27:{pitch:"G5", duration:1},
+            28:{pitch:"F5", duration:1},
+            29:{pitch:"E5", duration:1},
+            30:{pitch:"F#5", duration:3},
+            33:{pitch:"G5", duration:1},
+            35:{pitch:"D5", duration:1},
+            36:{pitch:"E5", duration:3},
+            39:{pitch:"F5", duration:3},
+            42:{pitch:"F#5", duration:3},
+            45:{pitch:"G5", duration:2},
+        },
+        channel2:{
+            0:{pitch:"F3", duration:1},
+            1:{pitch:"E4", duration:2},
+            3:{pitch:"Bb2", duration:1},
+            4:{pitch:"D4", duration:2},
+            6:{pitch:"A3", duration:1},
+            7:{pitch:"A4", duration:2},
+            9:{pitch:"F3", duration:1},
+            10:{pitch:"F4", duration:2},
+            12:{pitch:"F3", duration:1},
+            13:{pitch:"E4", duration:2},
+            15:{pitch:"Bb2", duration:1},
+            16:{pitch:"D4", duration:2},
+            18:{pitch:"C#4", duration:1},
+            19:{pitch:"D4", duration:1},
+            20:{pitch:"E4", duration:1},
+            21:{pitch:"E4", duration:1},
+            22:{pitch:"A3", duration:1},
+            23:{pitch:"G3", duration:1},
+            24:{pitch:"F3", duration:1},
+            25:{pitch:"D3", duration:2},
+            27:{pitch:"G3", duration:1},
+            28:{pitch:"C3", duration:2},
+            30:{pitch:"A3", duration:1},
+            31:{pitch:"E3", duration:1},
+            32:{pitch:"C#3", duration:1},
+            33:{pitch:"D3", duration:1},
+            35:{pitch:"G3", duration:1},
+            36:{pitch:"G#3", duration:3},
+            39:{pitch:"A3", duration:3},
+            42:{pitch:"Bb3", duration:3},
+            45:{pitch:"C4", duration:2},
+        },
+        channelNoise:{},
+    },
+};
+
 /* INPUT CONSTANTS */
 
 const KEYS = ["up", "down", "left", "right", "a", "b", "start", "select"];
@@ -4412,8 +4487,8 @@ sunbather.onInteract = () => {
 const kid = new Character({f0:kid_bmp}, 32, 32, delay=10000, fFrames=1, dialogue="Ooh, I wonder which one I'll get! Please not Boxkun...", [createPeeweeBall()]);
 
 const dojoRoom = new Room(dojoRoomTiles, 3, [morihei, squatter], dojoSong);
-const overworldTopRoom = new Room(overworldTopTiles, 3, [], gamblingSong);
-const overworldBottomRoom = new Room(overworldBottomTiles, 4, [fisherCat, beachSquatter, sunbather], gamblingSong);
+const overworldTopRoom = new Room(overworldTopTiles, 3, [], overworldSong);
+const overworldBottomRoom = new Room(overworldBottomTiles, 4, [fisherCat, beachSquatter, sunbather], overworldSong);
 const storeRoom = new Room(storeTiles, 4, [storeOwner, ramuneBottle, kid], gamblingSong);
 
 const world = new World([[overworldTopRoom, dojoRoom], [overworldBottomRoom, storeRoom]], 0, 0);
