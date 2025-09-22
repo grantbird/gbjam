@@ -3580,7 +3580,9 @@ class Room {
         this.world = null;
     }
 
-    onEnter() {}
+    onEnter() {
+        graphicsHandler.currPalette = this.palette;
+    }
 }
 
 class Inventory {
@@ -4182,7 +4184,7 @@ ramuneBottle.onInteract = () => {
 
 const dojoRoom = new Room(dojoRoomTiles, 3, [morihei, squatter], dojoSong);
 const overworldTopRoom = new Room(overworldTopTiles, 3, [], gamblingSong);
-const overworldBottomRoom = new Room(overworldBottomTiles, 4, [], gamblingSong);
+const overworldBottomRoom = new Room(overworldBottomTiles, 4, [], gamblingSong, {1:"#2E4057", 2:"#66A182", 3:"#CAFFB9", 4:"#AEF78E"});
 const storeRoom = new Room(storeTiles, 4, [storeOwner, ramuneBottle], gamblingSong);
 
 const world = new World([[overworldTopRoom, dojoRoom], [overworldBottomRoom, storeRoom]], 0, 0);
