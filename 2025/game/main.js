@@ -3971,7 +3971,11 @@ class Marble {
         this.loc.x += this.velocity.x * deltaT;
         this.loc.y += this.velocity.y * deltaT;
 
-        graphicsHandler.drawCircle(2, Math.floor(this.loc.x), Math.floor(this.loc.y), this.radius);
+        let color = 3;
+        if (this.type == MARBLE_TYPE_SHOOTER) {
+            color = 4;
+        }
+        graphicsHandler.drawCircle(color, Math.floor(this.loc.x), Math.floor(this.loc.y), this.radius);
     }
 }
 
