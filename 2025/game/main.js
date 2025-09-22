@@ -3901,15 +3901,24 @@ class Inventory {
     }
 
     update(deltaT) {
-        if (inputHandler.keyPressed.right) {
-            this.currMarble = (this.currMarble + 1) % this.player.marbles.length;
-        }
-        if (inputHandler.keyPressed.left) {
-            this.currMarble = (this.currMarble - 1 + this.player.marbles.length) % this.player.marbles.length;
-        }
-        if (inputHandler.keyPressed.a) {
+        //if (inputHandler.keyPressed.right) {
+        //    this.currMarble = (this.currMarble + 1) % this.player.marbles.length;
+        //}
+        //if (inputHandler.keyPressed.left) {
+        //    this.currMarble = (this.currMarble - 1 + this.player.marbles.length) % this.player.marbles.length;
+        //}
+        //if (inputHandler.keyPressed.a) {
+        //    this.setShooter();
+        //}
+        inputHandler.onKeyPress.a = () => {
             this.setShooter();
-        }
+        };
+        inputHandler.onKeyPress.right = () => {
+            this.currMarble = (this.currMarble + 1) % this.player.marbles.length;
+        };
+        inputHandler.onKeyPress.left = () => {
+            this.currMarble = (this.currMarble - 1 + this.player.marbles.length) % this.player.marbles.length;
+        };
         graphicsHandler.drawBitmap(frame_bmp, 0, 0);
         graphicsHandler.drawText(this.getCurrMarble().name, 16, 16);
         if (this.getCurrMarble().type == MARBLE_TYPE_SHOOTER) {
